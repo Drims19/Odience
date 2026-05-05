@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "Read(//Users/user/Desktop/**)",
+      "Bash(sips -g pixelWidth -g pixelHeight \"/Users/user/Desktop/Dossier site L'Odience/Photo présentation Nouvelle école.jpeg\")",
+      "Bash(sips -g pixelWidth -g pixelHeight \"/Users/user/Desktop/Dossier site L'Odience/IMG_1671.jpg\")",
+      "WebFetch(domain:audencia0-my.sharepoint.com)",
+      "WebSearch",
+      "WebFetch(domain:nominatim.openstreetmap.org)",
+      "Bash(read f *)",
+      "Bash(python3 -c ' *)"
+    ]
+  }
+}

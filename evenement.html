@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Événement — L'Odience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:   #080810;
+      --dark:    #10101e;
+      --dark2:   #18182e;
+      --border:  #22203f;
+      --purple:  #6b21a8;
+      --purple2: #9333ea;
+      --purple3: #c084fc;
+      --light:   #ddb6fe;
+      --cream:   #f3f0ff;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--black); color: var(--cream); overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--purple2); border-radius: 3px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 68px;
+      background: rgba(0,0,0,0.95);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900;
+    }
+    .nav-logo img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
+    .nav-logo-text { display: inline; }
+    .nav-logo em { color: var(--purple3); font-style: normal; margin-left: -2px; }
+    .nav-back {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--purple3);
+      border: 1px solid var(--border); padding: 8px 18px; border-radius: 3px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .nav-back:hover { background: var(--dark2); border-color: var(--purple2); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; min-height: 55vh;
+      display: flex; align-items: flex-end;
+      overflow: hidden; margin-top: 68px;
+    }
+    .hero-cover {
+      position: absolute; inset: 0;
+      background: var(--dark2);
+      background-size: cover; background-position: center;
+    }
+    .hero-cover img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      filter: brightness(0.4);
+    }
+    .hero-cover-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, var(--purple) 0%, var(--dark2) 100%);
+      opacity: 0.7;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(8,8,16,0.95) 0%, rgba(8,8,16,0.2) 60%, transparent 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 48px; width: 100%;
+    }
+    .hero-tag {
+      display: inline-block; font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.18em;
+      color: var(--purple3); border: 1px solid var(--purple);
+      padding: 5px 14px; border-radius: 2px; margin-bottom: 16px;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      font-weight: 900; line-height: 1.05; color: var(--cream);
+      max-width: 800px;
+    }
+
+    /* ── LAYOUT ── */
+    .page-content { max-width: 1200px; margin: 0 auto; padding: 64px 48px; }
+
+    /* ── DESCRIPTION ── */
+    .desc-section { margin-bottom: 72px; }
+    .section-label {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.2em; color: var(--purple3); margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; font-weight: 700; color: var(--cream);
+      margin-bottom: 28px;
+    }
+    .desc-text {
+      font-size: 1rem; line-height: 1.85; color: var(--light);
+      max-width: 780px; white-space: pre-wrap;
+    }
+    .desc-text[contenteditable="true"] {
+      outline: none;
+      border-left: 3px solid var(--purple2);
+      padding-left: 20px;
+      background: rgba(147,51,234,0.05);
+      border-radius: 0 4px 4px 0;
+    }
+    .edit-hint {
+      font-size: 0.72rem; color: var(--purple2); margin-top: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .btn-edit {
+      background: none; border: 1px solid var(--border); color: var(--purple3);
+      padding: 7px 18px; border-radius: 3px; font-family: 'Inter', sans-serif;
+      font-size: 0.78rem; font-weight: 600; cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-edit:hover { background: var(--dark2); border-color: var(--purple2); }
+    .btn-save {
+      background: var(--purple); color: var(--cream);
+      border: none; padding: 7px 18px; border-radius: 3px;
+      font-family: 'Inter', sans-serif; font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; display: none;
+      transition: background 0.2s;
+    }
+    .btn-save:hover { background: var(--purple2); }
+
+    /* ── GALERIE ── */
+    .galerie-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 28px; flex-wrap: wrap; gap: 16px;
+    }
+    .btn-add-photo {
+      background: var(--purple); color: var(--cream);
+      border: none; padding: 10px 24px; border-radius: 3px;
+      font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .btn-add-photo:hover { background: var(--purple2); }
+
+    .galerie-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .galerie-item {
+      position: relative; aspect-ratio: 4/3;
+      border-radius: 4px; overflow: hidden;
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .galerie-item:hover { transform: scale(1.01); box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+    .galerie-item:first-child {
+      grid-column: span 2; grid-row: span 2;
+      aspect-ratio: auto;
+    }
+
+    .galerie-item img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .galerie-item-placeholder {
+      width: 100%; height: 100%; min-height: 180px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 8px; color: var(--purple2); font-size: 0.78rem;
+      transition: background 0.2s;
+    }
+    .galerie-item:hover .galerie-item-placeholder { background: rgba(107,33,168,0.1); }
+    .galerie-item-placeholder span { font-size: 1.8rem; }
+
+    .galerie-item .remove-btn {
+      position: absolute; top: 8px; right: 8px;
+      background: rgba(0,0,0,0.7); color: #fff;
+      border: none; border-radius: 50%; width: 28px; height: 28px;
+      font-size: 1rem; cursor: pointer; display: none;
+      align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .galerie-item:hover .remove-btn { display: flex; }
+    .galerie-item .remove-btn:hover { background: rgba(229,115,115,0.8); }
+
+    /* ── LIGHTBOX ── */
+    .lightbox {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.92); z-index: 2000;
+      align-items: center; justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 90vw; max-height: 88vh; border-radius: 4px; object-fit: contain; }
+    .lightbox-close {
+      position: absolute; top: 20px; right: 28px;
+      background: none; border: none; color: #fff;
+      font-size: 2rem; cursor: pointer; line-height: 1;
+    }
+    .lightbox-nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(147,51,234,0.5); border: none; color: #fff;
+      font-size: 1.5rem; width: 48px; height: 48px;
+      border-radius: 50%; cursor: pointer; display: flex;
+      align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .lightbox-nav:hover { background: var(--purple2); }
+    .lightbox-prev { left: 20px; }
+    .lightbox-next { right: 20px; }
+
+    /* ── HIDDEN FILE INPUT ── */
+    #file-input { display: none; }
+
+    /* ── SECTION STREAMING ── */
+    .streaming-section { margin-top: 64px; }
+    .streaming-add-bar {
+      display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; align-items: center;
+    }
+    .streaming-select {
+      background: var(--dark2); border: 1px solid var(--border);
+      color: var(--cream); padding: 10px 14px; border-radius: 3px;
+      font-family: 'Inter', sans-serif; font-size: 0.88rem;
+      outline: none; cursor: pointer; transition: border-color 0.2s;
+    }
+    .streaming-select:focus { border-color: var(--purple2); }
+    .streaming-url-input {
+      flex: 1; min-width: 200px;
+      background: var(--dark2); border: 1px solid var(--border);
+      color: var(--cream); padding: 10px 16px; border-radius: 3px;
+      font-family: 'Inter', sans-serif; font-size: 0.88rem;
+      outline: none; transition: border-color 0.2s;
+    }
+    .streaming-url-input::placeholder { color: var(--purple3); opacity: 0.6; }
+    .streaming-url-input:focus { border-color: var(--purple2); }
+    .btn-add-stream {
+      background: var(--purple); color: var(--cream);
+      border: none; padding: 10px 24px; border-radius: 3px;
+      font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      cursor: pointer; transition: background 0.2s; white-space: nowrap;
+    }
+    .btn-add-stream:hover { background: var(--purple2); }
+    .streaming-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;
+    }
+    .streaming-card {
+      position: relative;
+      display: flex; align-items: center; gap: 14px;
+      padding: 18px 20px; border-radius: 6px;
+      border: 1px solid var(--border); background: var(--dark2);
+      text-decoration: none; color: var(--cream);
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+      overflow: hidden;
+    }
+    .streaming-card:hover { border-color: var(--purple2); background: var(--dark); transform: translateY(-2px); }
+    .streaming-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .streaming-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .streaming-name { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.92rem; }
+    .streaming-label { font-size: 0.72rem; color: var(--purple3); text-transform: uppercase; letter-spacing: 0.06em; }
+    .streaming-remove {
+      position: absolute; top: 6px; right: 6px;
+      background: rgba(0,0,0,0.6); color: #fff; border: none;
+      border-radius: 50%; width: 22px; height: 22px; font-size: 0.85rem;
+      cursor: pointer; display: none; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .streaming-card:hover .streaming-remove { display: flex; }
+    .streaming-remove:hover { background: rgba(229,115,115,0.8); }
+    .streaming-empty {
+      grid-column: 1 / -1; padding: 48px; text-align: center;
+      color: var(--purple3); font-size: 0.88rem;
+      border: 1px dashed var(--border); border-radius: 4px;
+    }
+    .streaming-empty span { font-size: 2rem; display: block; margin-bottom: 8px; }
+
+    /* ── SECTION YOUTUBE ── */
+    .youtube-section { margin-top: 64px; }
+    .youtube-add-bar {
+      display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap;
+    }
+    .youtube-input {
+      flex: 1; min-width: 220px;
+      background: var(--dark2); border: 1px solid var(--border);
+      color: var(--cream); padding: 10px 16px; border-radius: 3px;
+      font-family: 'Inter', sans-serif; font-size: 0.88rem;
+      outline: none; transition: border-color 0.2s;
+    }
+    .youtube-input::placeholder { color: var(--purple3); opacity: 0.6; }
+    .youtube-input:focus { border-color: var(--purple2); }
+    .btn-add-video {
+      background: var(--purple); color: var(--cream);
+      border: none; padding: 10px 24px; border-radius: 3px;
+      font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      cursor: pointer; transition: background 0.2s; white-space: nowrap;
+    }
+    .btn-add-video:hover { background: var(--purple2); }
+    .youtube-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+    }
+    @media (max-width: 640px) { .youtube-grid { grid-template-columns: 1fr; } }
+    .youtube-card {
+      position: relative; border-radius: 4px; overflow: hidden;
+      border: 1px solid var(--border); background: var(--dark2);
+    }
+    .youtube-card iframe {
+      width: 100%; aspect-ratio: 16/9; display: block; border: none;
+    }
+    .youtube-remove {
+      position: absolute; top: 8px; right: 8px;
+      background: rgba(0,0,0,0.7); color: #fff; border: none;
+      border-radius: 50%; width: 28px; height: 28px; font-size: 1rem;
+      cursor: pointer; display: none; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .youtube-card:hover .youtube-remove { display: flex; }
+    .youtube-remove:hover { background: rgba(229,115,115,0.8); }
+    .youtube-empty {
+      grid-column: 1 / -1; padding: 48px; text-align: center;
+      color: var(--purple3); font-size: 0.88rem; border: 1px dashed var(--border);
+      border-radius: 4px;
+    }
+    .youtube-empty span { font-size: 2rem; display: block; margin-bottom: 8px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .page-content { padding: 40px 20px; }
+      .hero-content { padding: 32px 20px; }
+      .galerie-grid { grid-template-columns: 1fr 1fr; }
+      .galerie-item:first-child { grid-column: span 2; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="logo.png" alt="Logo" /><span class="nav-logo-text">L'<em>Odience</em></span>
+  </a>
+  <a href="index.html" class="nav-back">← Retour</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="hero">
+  <div class="hero-cover" id="hero-cover">
+    <div class="hero-cover-placeholder" id="hero-placeholder"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <span class="hero-tag" id="hero-tag">Événement</span>
+    <h1 class="hero-title" id="hero-title">Nom de l'événement</h1>
+  </div>
+</div>
+
+<!-- CONTENU -->
+<div class="page-content">
+
+  <!-- Description -->
+  <div class="desc-section">
+    <p class="section-label">À propos</p>
+    <h2 class="section-title">Description de l'événement</h2>
+    <p class="desc-text" id="desc-text">Cliquez sur "Modifier" pour rédiger une description détaillée de cet événement.</p>
+    <div style="display:flex;gap:10px;margin-top:16px;align-items:center">
+      <button class="btn-edit" onclick="toggleEdit()">✏️ Modifier</button>
+      <button class="btn-save" id="btn-save" onclick="saveDesc()">💾 Enregistrer</button>
+      <span class="edit-hint" id="edit-hint" style="display:none">Cliquez dans le texte pour l'éditer</span>
+    </div>
+  </div>
+
+  <!-- Section Streaming (uniquement si ev.streaming) -->
+  <div class="streaming-section" id="streaming-section" style="display:none">
+    <div class="galerie-header">
+      <div>
+        <p class="section-label">Écouter</p>
+        <h2 class="section-title">Le projet sur les plateformes</h2>
+      </div>
+    </div>
+    <div class="streaming-add-bar">
+      <select class="streaming-select" id="streaming-platform">
+        <option value="Spotify" data-icon="🎧">Spotify</option>
+        <option value="Apple Music" data-icon="🎵">Apple Music</option>
+        <option value="Deezer" data-icon="🎶">Deezer</option>
+        <option value="SoundCloud" data-icon="☁️">SoundCloud</option>
+        <option value="YouTube Music" data-icon="▶️">YouTube Music</option>
+        <option value="Tidal" data-icon="🌊">Tidal</option>
+        <option value="Amazon Music" data-icon="📦">Amazon Music</option>
+        <option value="Autre" data-icon="🔗">Autre</option>
+      </select>
+      <input class="streaming-url-input" id="streaming-url" type="text" placeholder="Colle le lien de la plateforme…" />
+      <button class="btn-add-stream" onclick="addStreamLink()">+ Ajouter</button>
+    </div>
+    <div class="streaming-grid" id="streaming-grid"></div>
+  </div>
+
+  <!-- Section YouTube (uniquement si ev.youtube) -->
+  <div class="youtube-section" id="youtube-section" style="display:none">
+    <div class="galerie-header">
+      <div>
+        <p class="section-label">Vidéos</p>
+        <h2 class="section-title">Épisodes sur YouTube</h2>
+      </div>
+    </div>
+    <div class="youtube-add-bar">
+      <input class="youtube-input" id="youtube-url-input" type="text" placeholder="Colle un lien YouTube ici…" />
+      <button class="btn-add-video" onclick="addYoutubeVideo()">+ Ajouter</button>
+    </div>
+    <div class="youtube-grid" id="youtube-grid"></div>
+  </div>
+
+  <!-- Galerie édition 1 -->
+  <div class="galerie-section" id="galerie-section-1">
+    <div class="galerie-header">
+      <div>
+        <p class="section-label">Galerie</p>
+        <h2 class="section-title" id="galerie-title-1">Photos de l'événement</h2>
+      </div>
+      <button class="btn-add-photo" onclick="activeGalerie=1; document.getElementById('file-input').click()">+ Ajouter des photos</button>
+    </div>
+    <div class="galerie-grid" id="galerie-grid-1"></div>
+  </div>
+
+  <!-- Galerie édition 2 (affichée uniquement si multiEdition) -->
+  <div class="galerie-section" id="galerie-section-2" style="margin-top:64px; display:none">
+    <div style="border-top:1px solid var(--border); padding-top:64px">
+      <div class="galerie-header">
+        <div>
+          <p class="section-label">Galerie</p>
+          <h2 class="section-title" id="galerie-title-2">Première Édition</h2>
+        </div>
+        <button class="btn-add-photo" onclick="activeGalerie=2; document.getElementById('file-input').click()">+ Ajouter des photos</button>
+      </div>
+      <div class="galerie-grid" id="galerie-grid-2"></div>
+    </div>
+  </div>
+
+  <!-- Galerie édition 3 (affichée uniquement si tripleEdition) -->
+  <div class="galerie-section" id="galerie-section-3" style="margin-top:64px; display:none">
+    <div style="border-top:1px solid var(--border); padding-top:64px">
+      <div class="galerie-header">
+        <div>
+          <p class="section-label">Galerie</p>
+          <h2 class="section-title" id="galerie-title-3">Saison 1</h2>
+        </div>
+        <button class="btn-add-photo" onclick="activeGalerie=3; document.getElementById('file-input').click()">+ Ajouter des photos</button>
+      </div>
+      <div class="galerie-grid" id="galerie-grid-3"></div>
+    </div>
+  </div>
+
+  <!-- Section YouTube extra (galeries + vidéos) -->
+  <div class="youtube-section" id="youtube-extra-section" style="display:none; margin-top:64px; border-top:1px solid var(--border); padding-top:64px">
+    <div class="galerie-header">
+      <div>
+        <p class="section-label">Vidéos</p>
+        <h2 class="section-title">Replays sur YouTube</h2>
+      </div>
+    </div>
+    <div class="youtube-add-bar">
+      <input class="youtube-input" id="youtube-extra-input" type="text" placeholder="Colle un lien YouTube ici…" />
+      <button class="btn-add-video" onclick="addYoutubeExtra()">+ Ajouter</button>
+    </div>
+    <div class="youtube-grid" id="youtube-extra-grid"></div>
+  </div>
+
+</div>
+
+<!-- Input fichier caché -->
+<input type="file" id="file-input" multiple accept="image/*" onchange="handleFiles(this.files)" />
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-nav lightbox-prev" onclick="navLightbox(-1)">‹</button>
+  <img id="lightbox-img" src="" alt="" />
+  <button class="lightbox-nav lightbox-next" onclick="navLightbox(1)">›</button>
+</div>
+
+<script>
+  // ── Charger données depuis URL ──
+  const params = new URLSearchParams(location.search);
+  const eventId = params.get('id') || location.hash.replace('#', '') || 'default';
+
+  const events = {
+    'rap-party': {
+      tag: 'Soirée phare',
+      title: 'Rap Party',
+      cover: 'photos/rap-party-cover.jpg',
+      defaultPhotos1: ['photos/rap-party/5P1A1431.jpg','photos/rap-party/5P1A1468.jpg','photos/rap-party/5P1A1653.jpg','photos/rap-party/5P1A1655.jpg','photos/rap-party/5P1A1669.jpg','photos/rap-party/5P1A6222.jpg','photos/rap-party/5P1A6240.jpg','photos/rap-party/5P1A6324.jpg','photos/rap-party/5P1A6430.jpg','photos/rap-party/5P1A6476.jpg','photos/rap-party/5P1A6522.jpg','photos/rap-party/5P1A6581.jpg','photos/rap-party/5P1A6607.jpg','photos/rap-party/5P1A7121.jpg','photos/rap-party/5P1A7137.jpg','photos/rap-party/5P1A7216.jpg','photos/rap-party/5P1A7223.jpg','photos/rap-party/5P1A7281.jpg','photos/rap-party/5P1A7367.jpg','photos/rap-party/5P1A7378.jpg','photos/rap-party/5P1A7506.jpg','photos/rap-party/5P1A7509.jpg','photos/rap-party/5P1A7590.jpg','photos/rap-party/5P1A7712.jpg','photos/rap-party/5P1A7762.jpg','photos/rap-party/5P1A7765.jpg','photos/rap-party/5P1A7778.jpg','photos/rap-party/5P1A8047.jpg','photos/rap-party/5P1A8069.jpg','photos/rap-party/IMG_2001.jpg','photos/rap-party/IMG_2008.jpg','photos/rap-party/IMG_2030.jpg','photos/rap-party/IMG_2034.jpg'],
+      desc: `Les Rap Party, c'est l'événement signature de L'Odience : une nuit dédiée au rap, aux freestyles et aux performances live dans une ambiance électrique. Scène ouverte aux artistes de l'école et battles impromptus garantis.\n\nChaque édition a son propre thème. On a déjà vu "Classico", une soirée entièrement construite autour des sons d'Île-de-France et de Marseille, ou encore "Old School vs New School" qui opposait les classiques des années 90 aux sons actuels.\n\nC'est 2 éditions par semestre, prochaine date à venir.`
+    },
+    'live-session': {
+      tag: 'Inter-écoles',
+      title: "L'Odience Live Session",
+      cover: null,
+      multiEdition: true,
+      youtubeExtra: true,
+      edition1: 'Deuxième Édition',
+      edition2: 'Première Édition',
+      defaultYoutubeVideos: ['XLvwiA3GU88'],
+      defaultPhotos2: ['photos/live-session-s1/100_0752.JPEG','photos/live-session-s1/100_0830.JPEG','photos/live-session-s1/100_0843.JPEG','photos/live-session-s1/100_0862.JPEG','photos/live-session-s1/100_0884.JPEG','photos/live-session-s1/100_0890.JPEG','photos/live-session-s1/100_0897.JPEG','photos/live-session-s1/100_0923.JPEG','photos/live-session-s1/100_0960.JPEG','photos/live-session-s1/100_0969.JPEG','photos/live-session-s1/100_0984.JPEG','photos/live-session-s1/100_1002.JPEG','photos/live-session-s1/100_1035.JPEG'],
+      desc: `Inspiré des formats Grünt, L'Odience Live Session réunit autour d'une table des rappeurs venus de toute la France, issus des meilleures écoles de commerce : EM Lyon, Rennes BS, Centrale Nantes, IMT Atlantique, Kedge…\n\nPendant près de 3h de performance live et sans filet, c'est la synergie inter-étudiante portée à son niveau le plus haut.\n\nProchaine édition : Mars 2027.`
+    },
+    'rap-jeux': {
+      tag: 'Compétition',
+      title: 'Rap Jeux',
+      cover: null,
+      desc: `Inspiré du Rap Jeux animé par Mehdi Maïzi, notre format met 16 équipes en compétition dans un tournoi rap où seule une équipe triomphe.\n\nAu programme : le Roland Gamos, les enchères, le quiz de rapidité, le blind test et le redoutable "1 son 1 sample", des épreuves qui testent autant la culture que les réflexes.\n\nUne ambiance de folie garantie du premier match jusqu'à la grande finale, disputée en amphi devant près de 300 personnes de l'école.\n\nChaque année en novembre.`
+    },
+    'nouvelle-ecole': {
+      tag: 'Révélation',
+      title: 'Nouvelle École',
+      cover: 'nouvelle-ecole.jpg',
+      multiEdition: true,
+      edition1: 'Saison 3',
+      edition2: 'Saison 2',
+      edition3: 'Saison 1',
+      defaultPhotos2: ['photos/nouvelle-ecole-s2/IMG_1117.jpg','photos/nouvelle-ecole-s2/IMG_1119.jpg','photos/nouvelle-ecole-s2/IMG_1125.jpg','photos/nouvelle-ecole-s2/IMG_1128.jpg','photos/nouvelle-ecole-s2/IMG_1138.jpg','photos/nouvelle-ecole-s2/IMG_1141.jpg','photos/nouvelle-ecole-s2/IMG_1144-2.jpg','photos/nouvelle-ecole-s2/IMG_1150-2.jpg','photos/nouvelle-ecole-s2/IMG_1167-2.jpg','photos/nouvelle-ecole-s2/IMG_1169.jpg','photos/nouvelle-ecole-s2/IMG_1174-2.jpg','photos/nouvelle-ecole-s2/IMG_1197.jpg','photos/nouvelle-ecole-s2/IMG_1212-2.jpg','photos/nouvelle-ecole-s2/IMG_1215-2.jpg','photos/nouvelle-ecole-s2/IMG_1218-2.jpg','photos/nouvelle-ecole-s2/IMG_1225-2.jpg','photos/nouvelle-ecole-s2/IMG_1226-2.jpg','photos/nouvelle-ecole-s2/IMG_1228-2.jpg','photos/nouvelle-ecole-s2/IMG_1233-2.jpg','photos/nouvelle-ecole-s2/IMG_1238-2.jpg','photos/nouvelle-ecole-s2/IMG_1245-2.jpg','photos/nouvelle-ecole-s2/IMG_1246.jpg','photos/nouvelle-ecole-s2/IMG_1247-2.jpg','photos/nouvelle-ecole-s2/IMG_1249-2.jpg','photos/nouvelle-ecole-s2/IMG_1256.jpg','photos/nouvelle-ecole-s2/IMG_1257.jpg','photos/nouvelle-ecole-s2/IMG_1260.jpg','photos/nouvelle-ecole-s2/IMG_1271.jpg','photos/nouvelle-ecole-s2/IMG_1273-2.jpg','photos/nouvelle-ecole-s2/IMG_1277-2.jpg','photos/nouvelle-ecole-s2/IMG_1278.jpg','photos/nouvelle-ecole-s2/IMG_1304.jpg','photos/nouvelle-ecole-s2/IMG_1313.jpg','photos/nouvelle-ecole-s2/IMG_1315.jpg','photos/nouvelle-ecole-s2/IMG_1323.jpg'],
+      defaultPhotos3: ['photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-158.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-159.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-160.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-161.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-162.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-163.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-164.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-165.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-166.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-167.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-168.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-169.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-170.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-171.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-172.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-173.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-174.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-175.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-176.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-177.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-178.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-179.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-180.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-181.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-182.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-183.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-184.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-185.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-186.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-187.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-188.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-189.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-190.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-191.jpg','photos/nouvelle-ecole-s1/Nouvelle_Ecole_-_2025-192.jpg'],
+      desc: `Inspiré par le célèbre show urbain, L'Odience lance son propre concept Nouvelle École pour dénicher la pépite du campus. Quatre figures de la scène nantaise forment un jury d'élite pour juger les candidats, sélectionnés sur un morceau original de deux minutes.\n\nLa compétition bascule ensuite en amphi pour une épreuve de Rap Contenders sans merci, où le public vote pour ses quatre finalistes. Ces derniers livrent alors une ultime performance live devant près de 500 spectateurs en amphi : à la fin, un seul nom ressort pour nommer le grand gagnant de l'école.\n\nChaque année en novembre.`
+    },
+    'premiere-odience': {
+      tag: 'Nouveau concept, Mandat 2026',
+      title: 'Première Odience',
+      cover: null,
+      youtube: true,
+      defaultYoutubeVideos: ['VcY_dk34XOY'],
+      desc: `Nouveauté majeure du mandat 2026 : chaque vendredi, cinq membres de l'asso écoutent trois nouvelles sorties rap de la semaine. Le concept ? Une caméra, des micros, et zéro censure.\n\nOn filme nos réactions à chaud, des coups de cœur aux critiques les plus tranchantes. Si c'est moyen on le dit, si c'est bien on le dit aussi. Chaque session est ensuite montée et balancée sur YouTube pour vous plonger au cœur du studio avec nous.\n\nInstallez-vous, on lance le projet, et on débriefe ensemble.\n\nTous les vendredis sur YouTube.`
+    },
+    'purple-tape': {
+      tag: 'Projet label',
+      title: 'La Purple Tape',
+      cover: null,
+      streaming: true,
+      defaultStreaming: [
+        { platform: 'Spotify',     url: 'https://open.spotify.com/album/2TcvhdgQzQiJcVlLSZbr8K?si=qugCo7DrQ7SfKlSasp36Uw' },
+        { platform: 'Apple Music', url: 'https://music.apple.com/fr/album/purple-tape-ep/1879508826?l=en-GB' },
+        { platform: 'Deezer',      url: 'https://link.deezer.com/s/3396alQNKg38rbcRjosPI' }
+      ],
+      desc: `Chaque année, le pôle label de L'Odience sort un projet musical collectif (album, EP ou mixtape) ouvert à tous. Des prods signées par les beatmakers de l'asso, des voix qui rappent, chantent : rap, R&B, trap, afrotrap…\n\nGarçons, filles, membres de l'Odience ou d'autres assos de l'école, tout le monde est bienvenu. La Purple Tape, c'est avant tout un projet où l'on crée, on s'amuse et on laisse une trace sonore de l'année.\n\nSortie annuelle, fin de semestre.`
+    }
+  };
+
+  const ev = events[eventId] || { tag: 'Événement', title: 'Événement', cover: null, desc: '' };
+
+  // Remplir le hero
+  document.getElementById('hero-tag').textContent = ev.tag;
+  document.getElementById('hero-title').textContent = ev.title;
+  document.title = ev.title + " — L'Odience";
+
+  if (ev.cover) {
+    const img = document.createElement('img');
+    img.src = ev.cover;
+    img.alt = ev.title;
+    const ph = document.getElementById('hero-placeholder');
+    ph.parentNode.replaceChild(img, ph);
+  }
+
+  // Description
+  const storedDesc = localStorage.getItem('desc_' + eventId);
+  document.getElementById('desc-text').textContent = storedDesc || ev.desc;
+
+  // ── Édition description ──
+  function toggleEdit() {
+    const el = document.getElementById('desc-text');
+    const btn = document.querySelector('.btn-edit');
+    const save = document.getElementById('btn-save');
+    const hint = document.getElementById('edit-hint');
+    const editing = el.contentEditable === 'true';
+    if (!editing) {
+      el.contentEditable = 'true';
+      el.focus();
+      btn.style.display = 'none';
+      save.style.display = 'inline-block';
+      hint.style.display = 'flex';
+    }
+  }
+
+  function saveDesc() {
+    const el = document.getElementById('desc-text');
+    const btn = document.querySelector('.btn-edit');
+    const save = document.getElementById('btn-save');
+    const hint = document.getElementById('edit-hint');
+    el.contentEditable = 'false';
+    localStorage.setItem('desc_' + eventId, el.textContent);
+    btn.style.display = 'inline-block';
+    save.style.display = 'none';
+    hint.style.display = 'none';
+  }
+
+  // ── Streaming ──
+  const platformIcons = {
+    'Spotify': '🎧', 'Apple Music': '🎵', 'Deezer': '🎶',
+    'SoundCloud': '☁️', 'YouTube Music': '▶️', 'Tidal': '🌊',
+    'Amazon Music': '📦', 'Autre': '🔗'
+  };
+
+  if (ev.streaming) {
+    document.getElementById('streaming-section').style.display = 'block';
+    document.getElementById('galerie-section-1').style.display = 'none';
+    document.getElementById('galerie-section-2').style.display = 'none';
+  }
+
+  function getStreamLinks() {
+    return JSON.parse(localStorage.getItem('stream_' + eventId) || '[]');
+  }
+  function setStreamLinks(arr) {
+    localStorage.setItem('stream_' + eventId, JSON.stringify(arr));
+  }
+
+  function renderStreaming() {
+    const defaultLinks = ev.defaultStreaming || [];
+    const userLinks = getStreamLinks();
+    const allLinks = [...defaultLinks, ...userLinks];
+    const grid = document.getElementById('streaming-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    if (allLinks.length === 0) {
+      grid.innerHTML = `<div class="streaming-empty"><span>🎵</span>Aucun lien pour l'instant — ajoute une plateforme ci-dessus</div>`;
+      return;
+    }
+    allLinks.forEach((item, i) => {
+      const isDefault = i < defaultLinks.length;
+      const card = document.createElement('a');
+      card.className = 'streaming-card';
+      card.href = item.url;
+      card.target = '_blank';
+      card.rel = 'noopener';
+      card.innerHTML = `
+        <span class="streaming-icon">${platformIcons[item.platform] || '🔗'}</span>
+        <div class="streaming-info">
+          <span class="streaming-name">${item.platform}</span>
+          <span class="streaming-label">Écouter le projet</span>
+        </div>
+        ${!isDefault ? `<button class="streaming-remove" onclick="event.preventDefault();removeStreamLink(${i - defaultLinks.length})">×</button>` : ''}`;
+      grid.appendChild(card);
+    });
+  }
+
+  function addStreamLink() {
+    const platform = document.getElementById('streaming-platform')?.value;
+    const urlInput = document.getElementById('streaming-url');
+    const url = urlInput?.value.trim();
+    if (!url || !url.startsWith('http')) {
+      if (urlInput) { urlInput.style.borderColor = '#e57373'; setTimeout(() => urlInput.style.borderColor = '', 1200); }
+      return;
+    }
+    const defaultLinks = ev.defaultStreaming || [];
+    const links = getStreamLinks();
+    const alreadyExists = [...defaultLinks, ...links].some(l => l.url === url || l.platform === platform);
+    if (alreadyExists) { urlInput.value = ''; return; }
+    links.push({ platform, url });
+    setStreamLinks(links);
+    urlInput.value = '';
+    renderStreaming();
+  }
+
+  function removeStreamLink(i) {
+    const links = getStreamLinks();
+    links.splice(i, 1);
+    setStreamLinks(links);
+    renderStreaming();
+  }
+
+  document.getElementById('streaming-url')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') addStreamLink();
+  });
+
+  if (ev.streaming) renderStreaming();
+
+  // ── YouTube ──
+  if (ev.youtube) {
+    document.getElementById('youtube-section').style.display = 'block';
+    document.getElementById('galerie-section-1').style.display = 'none';
+    document.getElementById('galerie-section-2').style.display = 'none';
+  }
+
+  function extractYoutubeId(url) {
+    const patterns = [
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/
+    ];
+    for (const p of patterns) {
+      const m = url.match(p);
+      if (m) return m[1];
+    }
+    return null;
+  }
+
+  function getVideos() {
+    return JSON.parse(localStorage.getItem('yt_' + eventId) || '[]');
+  }
+  function setVideos(arr) {
+    localStorage.setItem('yt_' + eventId, JSON.stringify(arr));
+  }
+
+  function renderYoutube() {
+    const defaultVideos = ev.defaultYoutubeVideos || [];
+    const userVideos = getVideos();
+    const allVideos = [...defaultVideos, ...userVideos];
+    const grid = document.getElementById('youtube-grid');
+    grid.innerHTML = '';
+    if (allVideos.length === 0) {
+      grid.innerHTML = `<div class="youtube-empty"><span>▶️</span>Colle un lien YouTube ci-dessus pour ajouter un épisode</div>`;
+      return;
+    }
+    allVideos.forEach((id, i) => {
+      const isDefault = i < defaultVideos.length;
+      const card = document.createElement('div');
+      card.className = 'youtube-card';
+      card.innerHTML = `
+        <iframe src="https://www.youtube.com/embed/${id}" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+        </iframe>
+        ${!isDefault ? `<button class="youtube-remove" onclick="removeVideo(${i - defaultVideos.length})">×</button>` : ''}`;
+      grid.appendChild(card);
+    });
+  }
+
+  function addYoutubeVideo() {
+    const input = document.getElementById('youtube-url-input');
+    const id = extractYoutubeId(input.value.trim());
+    if (!id) { input.style.borderColor = '#e57373'; setTimeout(() => input.style.borderColor = '', 1200); return; }
+    const defaultVideos = ev.defaultYoutubeVideos || [];
+    const videos = getVideos();
+    if (videos.includes(id) || defaultVideos.includes(id)) { input.value = ''; return; }
+    videos.push(id);
+    setVideos(videos);
+    input.value = '';
+    renderYoutube();
+  }
+
+  function removeVideo(i) {
+    const videos = getVideos();
+    videos.splice(i, 1);
+    setVideos(videos);
+    renderYoutube();
+  }
+
+  document.getElementById('youtube-url-input')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') addYoutubeVideo();
+  });
+
+  if (ev.youtube) renderYoutube();
+
+  // ── YouTube Extra (Live Session : galeries + replays) ──
+  if (ev.youtubeExtra) {
+    document.getElementById('youtube-extra-section').style.display = 'block';
+  }
+
+  function getVideosExtra() {
+    return JSON.parse(localStorage.getItem('ytx_' + eventId) || '[]');
+  }
+  function setVideosExtra(arr) {
+    localStorage.setItem('ytx_' + eventId, JSON.stringify(arr));
+  }
+
+  function renderYoutubeExtra() {
+    const defaultVideos = ev.defaultYoutubeVideos || [];
+    const userVideos = getVideosExtra();
+    const grid = document.getElementById('youtube-extra-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    if (defaultVideos.length === 0 && userVideos.length === 0) {
+      grid.innerHTML = `<div class="youtube-empty"><span>▶️</span>Colle un lien YouTube ci-dessus pour ajouter un replay</div>`;
+      return;
+    }
+    defaultVideos.forEach(id => {
+      const card = document.createElement('div');
+      card.className = 'youtube-card';
+      card.innerHTML = `
+        <iframe src="https://www.youtube.com/embed/${id}" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+        </iframe>`;
+      grid.appendChild(card);
+    });
+    userVideos.forEach((id, i) => {
+      const card = document.createElement('div');
+      card.className = 'youtube-card';
+      card.innerHTML = `
+        <iframe src="https://www.youtube.com/embed/${id}" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+        </iframe>
+        <button class="youtube-remove" onclick="removeVideoExtra(${i})">×</button>`;
+      grid.appendChild(card);
+    });
+  }
+
+  function addYoutubeExtra() {
+    const input = document.getElementById('youtube-extra-input');
+    const id = extractYoutubeId(input.value.trim());
+    if (!id) { input.style.borderColor = '#e57373'; setTimeout(() => input.style.borderColor = '', 1200); return; }
+    const defaultVideos = ev.defaultYoutubeVideos || [];
+    if (defaultVideos.includes(id)) { input.value = ''; return; }
+    const videos = getVideosExtra();
+    if (videos.includes(id)) { input.value = ''; return; }
+    videos.push(id);
+    setVideosExtra(videos);
+    input.value = '';
+    renderYoutubeExtra();
+  }
+
+  function removeVideoExtra(i) {
+    const videos = getVideosExtra();
+    videos.splice(i, 1);
+    setVideosExtra(videos);
+    renderYoutubeExtra();
+  }
+
+  document.getElementById('youtube-extra-input')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') addYoutubeExtra();
+  });
+
+  if (ev.youtubeExtra) renderYoutubeExtra();
+
+  // ── Multi-édition ──
+  let activeGalerie = 1;
+  let lightboxPhotos = [];
+  let lightboxIndex = 0;
+
+  if (ev.multiEdition) {
+    document.getElementById('galerie-title-1').textContent = ev.edition1 || 'Édition 1';
+    document.getElementById('galerie-title-2').textContent = ev.edition2 || 'Édition 2';
+    document.getElementById('galerie-section-2').style.display = 'block';
+    if (ev.edition3) {
+      document.getElementById('galerie-title-3').textContent = ev.edition3;
+      document.getElementById('galerie-section-3').style.display = 'block';
+    }
+  } else {
+    document.getElementById('galerie-title-1').textContent = "Photos de l'événement";
+  }
+
+  function getPhotos(num) {
+    return JSON.parse(localStorage.getItem('photos_' + eventId + '_' + num) || '[]');
+  }
+  function setPhotos(num, arr) {
+    localStorage.setItem('photos_' + eventId + '_' + num, JSON.stringify(arr));
+  }
+
+  function renderGalerieNum(num) {
+    const userPhotos = getPhotos(num);
+    const defaultPhotos = ev['defaultPhotos' + num] || [];
+    const allPhotos = [...defaultPhotos, ...userPhotos];
+    const grid = document.getElementById('galerie-grid-' + num);
+    grid.innerHTML = '';
+
+    if (allPhotos.length === 0) {
+      const ph = document.createElement('div');
+      ph.className = 'galerie-item';
+      ph.style.minHeight = '280px';
+      ph.onclick = () => { activeGalerie = num; document.getElementById('file-input').click(); };
+      ph.innerHTML = `<div class="galerie-item-placeholder"><span>📷</span>Cliquez pour ajouter des photos</div>`;
+      grid.appendChild(ph);
+      return;
+    }
+
+    allPhotos.forEach((src, i) => {
+      const item = document.createElement('div');
+      item.className = 'galerie-item';
+      if (i === 0) item.style.minHeight = '340px';
+
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = 'Photo ' + (i + 1);
+      img.onclick = () => openLightboxAll(num, i);
+
+      item.appendChild(img);
+
+      // Bouton supprimer uniquement pour les photos ajoutées par l'utilisateur
+      if (i >= defaultPhotos.length) {
+        const userIdx = i - defaultPhotos.length;
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'remove-btn';
+        removeBtn.textContent = '×';
+        removeBtn.onclick = (e) => { e.stopPropagation(); removePhotoNum(num, userIdx); };
+        item.appendChild(removeBtn);
+      }
+
+      grid.appendChild(item);
+
+      // Hero cover avec 1ère photo de galerie 1
+      if (num === 1 && i === 0 && !ev.cover) {
+        const heroImg = document.querySelector('.hero-cover img') || document.createElement('img');
+        heroImg.src = src;
+        heroImg.style.filter = 'brightness(0.4)';
+        const ph = document.getElementById('hero-placeholder');
+        if (ph) ph.parentNode.replaceChild(heroImg, ph);
+      }
+    });
+  }
+
+  // Lightbox qui ouvre sur toutes les photos (défaut + user)
+  function openLightboxAll(num, i) {
+    const defaultPhotos = ev['defaultPhotos' + num] || [];
+    const userPhotos = getPhotos(num);
+    lightboxPhotos = [...defaultPhotos, ...userPhotos];
+    lightboxIndex = i;
+    document.getElementById('lightbox-img').src = lightboxPhotos[i];
+    document.getElementById('lightbox').classList.add('open');
+  }
+
+  function handleFiles(files) {
+    const num = activeGalerie;
+    const photos = getPhotos(num);
+    Array.from(files).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        photos.push(e.target.result);
+        setPhotos(num, photos);
+        renderGalerieNum(num);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function removePhotoNum(num, i) {
+    const photos = getPhotos(num);
+    photos.splice(i, 1);
+    setPhotos(num, photos);
+    renderGalerieNum(num);
+  }
+
+  // ── Lightbox ──
+  function openLightbox(num, i) {
+    lightboxPhotos = getPhotos(num);
+    lightboxIndex = i;
+    document.getElementById('lightbox-img').src = lightboxPhotos[i];
+    document.getElementById('lightbox').classList.add('open');
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+  }
+
+  function navLightbox(dir) {
+    lightboxIndex = (lightboxIndex + dir + lightboxPhotos.length) % lightboxPhotos.length;
+    document.getElementById('lightbox-img').src = lightboxPhotos[lightboxIndex];
+  }
+
+  document.getElementById('lightbox').addEventListener('click', function(e) {
+    if (e.target === this) closeLightbox();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!document.getElementById('lightbox').classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowRight') navLightbox(1);
+    if (e.key === 'ArrowLeft') navLightbox(-1);
+  });
+
+  renderGalerieNum(1);
+  if (ev.multiEdition) renderGalerieNum(2);
+  if (ev.multiEdition && ev.edition3) renderGalerieNum(3);
+</script>
+</body>
+</html>

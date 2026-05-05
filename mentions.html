@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mentions légales — L'Odience</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-900: #080810;
+      --green-800: #10101e;
+      --green-700: #18182e;
+      --green-600: #22203f;
+      --green-500: #6b21a8;
+      --green-400: #9333ea;
+      --green-300: #c084fc;
+      --green-200: #ddb6fe;
+      --green-100: #f3e8ff;
+      --cream:     #f3f0ff;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--green-900);
+      color: var(--cream);
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--green-900); }
+    ::-webkit-scrollbar-thumb { background: var(--green-500); border-radius: 3px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
+      background: rgba(0,0,0,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(63,128,89,0.2);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      color: var(--cream);
+    }
+    .nav-logo img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+    .nav-logo-text { color: var(--cream); }
+    .nav-logo-text em { color: var(--green-300); font-style: normal; margin-left: -2px; }
+
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--green-200);
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--cream); }
+    .nav-back::before { content: '←'; font-size: 1rem; }
+
+    /* ── CONTENU ── */
+    .page-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 120px 48px 96px;
+    }
+
+    .page-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--green-300);
+      border: 1px solid var(--green-500);
+      padding: 5px 14px;
+      border-radius: 2px;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 900;
+      color: var(--cream);
+      line-height: 1.1;
+      margin-bottom: 48px;
+    }
+
+    .ml-block {
+      background: var(--green-800);
+      border: 1px solid var(--green-700);
+      border-radius: 6px;
+      padding: 36px;
+      margin-bottom: 24px;
+    }
+
+    .ml-block h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--green-300);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--green-700);
+    }
+
+    .ml-row {
+      display: flex;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.88rem;
+    }
+    .ml-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .ml-label {
+      min-width: 180px;
+      font-weight: 600;
+      color: var(--green-200);
+      flex-shrink: 0;
+    }
+
+    .ml-value {
+      color: var(--green-100);
+      line-height: 1.5;
+    }
+
+    .ml-note {
+      font-size: 0.8rem;
+      color: var(--green-300);
+      margin-top: 20px;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--green-900);
+      border-top: 1px solid var(--green-700);
+      padding: 32px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--green-400);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .page-wrap { padding: 100px 24px 64px; }
+      .ml-row { flex-direction: column; gap: 4px; }
+      .ml-label { min-width: unset; }
+      footer { padding: 24px; flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="logo.png" alt="Logo L'Odience" />
+    <span class="nav-logo-text">L'<em>Odience</em></span>
+  </a>
+  <a href="index.html" class="nav-back">Retour à l'accueil</a>
+</nav>
+
+<!-- ── CONTENU ── -->
+<div class="page-wrap">
+  <span class="page-tag">Légal</span>
+  <h1>Mentions légales</h1>
+
+  <!-- Éditeur -->
+  <div class="ml-block">
+    <h2>Éditeur du site</h2>
+    <div class="ml-row">
+      <span class="ml-label">Nom de l'association</span>
+      <span class="ml-value">L'Odience</span>
+    </div>
+    <div class="ml-row">
+      <span class="ml-label">Forme juridique</span>
+      <span class="ml-value">Association loi 1901</span>
+    </div>
+    <div class="ml-row">
+      <span class="ml-label">Siège social</span>
+      <span class="ml-value">8 Route de la Jonelière, 44300 Nantes</span>
+    </div>
+    <div class="ml-row">
+      <span class="ml-label">SIRET</span>
+      <span class="ml-value">842 301 456 00027</span>
+    </div>
+    <div class="ml-row">
+      <span class="ml-label">Code APE</span>
+      <span class="ml-value">9001Z</span>
+    </div>
+    <div class="ml-row">
+      <span class="ml-label">Email de contact</span>
+      <span class="ml-value">audencialodience@gmail.com</span>
+    </div>
+  </div>
+
+  <!-- Directeur de publication -->
+  <div class="ml-block">
+    <h2>Directeur de la publication</h2>
+    <div class="ml-row">
+      <span class="ml-label">Nom</span>
+      <span class="ml-value">Deion Blanche, Président de L'Odience</span>
+    </div>
+    <div class="ml-row">
+      <span class="ml-label">Email</span>
+      <span class="ml-value">audencialodience@gmail.com</span>
+    </div>
+  </div>
+
+  <!-- Hébergement -->
+  <div class="ml-block">
+    <h2>Hébergement</h2>
+    <div class="ml-row">
+      <span class="ml-label">Hébergeur</span>
+      <span class="ml-value">À compléter (ex. GitHub Pages, Netlify, OVH…)</span>
+    </div>
+    <div class="ml-row">
+      <span class="ml-label">Adresse</span>
+      <span class="ml-value">À compléter</span>
+    </div>
+    <p class="ml-note">Merci de renseigner le nom et l'adresse de votre hébergeur web.</p>
+  </div>
+
+  <!-- Propriété intellectuelle -->
+  <div class="ml-block">
+    <h2>Propriété intellectuelle</h2>
+    <div class="ml-row">
+      <span class="ml-label"></span>
+      <span class="ml-value">L'ensemble du contenu de ce site (textes, images, vidéos, logos) est la propriété exclusive de L'Odience, sauf mention contraire. Toute reproduction, même partielle, est interdite sans autorisation préalable.</span>
+    </div>
+  </div>
+
+  <!-- Données personnelles -->
+  <div class="ml-block">
+    <h2>Données personnelles</h2>
+    <div class="ml-row">
+      <span class="ml-label"></span>
+      <span class="ml-value">Ce site collecte uniquement les données transmises via le formulaire de contact (nom, prénom, email, message). Ces données sont utilisées exclusivement pour répondre aux demandes et ne sont pas transmises à des tiers. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression en écrivant à audencialodience@gmail.com.</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <span>© 2026 L'Odience — Association Culturelle de Nantes</span>
+  <span>SIRET 842 301 456 00027 — APE 9001Z</span>
+</footer>
+
+</body>
+</html>

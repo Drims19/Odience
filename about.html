@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Qui sommes-nous ? — L'Odience</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-900: #080810;
+      --green-800: #10101e;
+      --green-700: #18182e;
+      --green-600: #22203f;
+      --green-500: #6b21a8;
+      --green-400: #9333ea;
+      --green-300: #c084fc;
+      --green-200: #ddb6fe;
+      --green-100: #f3e8ff;
+      --cream:     #f3f0ff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--green-900);
+      color: var(--cream);
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--green-900); }
+    ::-webkit-scrollbar-thumb { background: var(--green-500); border-radius: 3px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
+      background: rgba(0,0,0,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(63,128,89,0.2);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      color: var(--cream);
+    }
+    .nav-logo img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+    .nav-logo-text { color: var(--cream); }
+    .nav-logo-text em { color: var(--green-300); font-style: normal; margin-left: -2px; }
+
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--green-200);
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--cream); }
+    .nav-back::before { content: '←'; font-size: 1rem; }
+
+    /* ── HERO ── */
+    .about-hero {
+      padding: 140px 48px 80px;
+      background: var(--green-900);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-hero::after {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 50vw;
+      height: 80vh;
+      background: radial-gradient(ellipse, rgba(147,51,234,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .about-hero-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--green-300);
+      border: 1px solid var(--green-500);
+      padding: 5px 14px;
+      border-radius: 2px;
+      margin-bottom: 28px;
+    }
+
+    .about-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      color: var(--cream);
+      margin-bottom: 24px;
+      max-width: 720px;
+    }
+
+    .about-hero h1 em {
+      font-style: italic;
+      color: var(--green-300);
+    }
+
+    .about-hero-sub {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--green-100);
+      line-height: 1.7;
+      max-width: 580px;
+    }
+
+    /* ── SECTIONS ── */
+    .about-section {
+      padding: 80px 48px;
+    }
+
+    .about-section:nth-child(even) { background: var(--green-800); }
+    .about-section:nth-child(odd)  { background: var(--green-900); }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--green-300);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.15;
+      margin-bottom: 40px;
+    }
+
+    /* ── HISTOIRE ── */
+    .histoire-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .histoire-text p {
+      font-size: 0.95rem;
+      color: var(--green-100);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .histoire-text p:last-child { margin-bottom: 0; }
+
+    .histoire-photo {
+      aspect-ratio: 4/3;
+      background: var(--green-700);
+      border: 1px solid var(--green-600);
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      color: var(--green-500);
+    }
+
+    .histoire-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+    }
+
+    /* ── VALEURS ── */
+    .valeurs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .valeur-card {
+      background: var(--green-700);
+      border: 1px solid var(--green-600);
+      border-radius: 6px;
+      padding: 32px 24px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .valeur-card:hover { border-color: var(--green-400); transform: translateY(-3px); }
+
+    .valeur-icon { font-size: 2rem; margin-bottom: 16px; }
+
+    .valeur-titre {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 10px;
+    }
+
+    .valeur-desc {
+      font-size: 0.85rem;
+      color: var(--green-200);
+      line-height: 1.6;
+    }
+
+    /* ── CHIFFRES ── */
+    .chiffres-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+
+    .chiffre-bloc {
+      background: var(--green-700);
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    .chiffre-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--green-300);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .chiffre-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--green-200);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── CTA ── */
+    .about-cta {
+      padding: 80px 48px;
+      background: var(--green-800);
+      text-align: center;
+    }
+
+    .about-cta h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      font-weight: 700;
+      color: var(--cream);
+      margin-bottom: 16px;
+    }
+
+    .about-cta p {
+      font-size: 0.95rem;
+      color: var(--green-200);
+      margin-bottom: 36px;
+    }
+
+    .btn-primary {
+      background: var(--green-400);
+      color: var(--cream);
+      padding: 14px 36px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: 2px;
+      display: inline-block;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--green-300); transform: translateY(-1px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--green-900);
+      border-top: 1px solid var(--green-700);
+      padding: 32px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--green-400);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .about-hero { padding: 110px 24px 60px; }
+      .about-section { padding: 60px 24px; }
+      .histoire-layout { grid-template-columns: 1fr; gap: 36px; }
+      .valeurs-grid { grid-template-columns: 1fr; }
+      .chiffres-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-cta { padding: 60px 24px; }
+      footer { padding: 24px; flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="logo.png" alt="Logo L'Odience" />
+    <span class="nav-logo-text">L'<em>Odience</em></span>
+  </a>
+  <a href="index.html" class="nav-back">Retour à l'accueil</a>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="about-hero">
+  <span class="about-hero-tag">L'association</span>
+  <h1>Qui sommes-<em>nous</em> ?</h1>
+  <p class="about-hero-sub">
+    L'Odience, c'est l'association de culture urbaine d'Audencia : un espace de création, de scène et de rencontre autour du rap, depuis le campus de Nantes.
+  </p>
+</div>
+
+<!-- ── HISTOIRE ── -->
+<div class="about-section">
+  <p class="section-label">Notre histoire</p>
+  <h2 class="section-title">Nés d'une passion commune</h2>
+  <div class="histoire-layout">
+    <div class="histoire-text">
+      <p>
+        L'Odience est née d'une conviction simple : le rap mérite sa place dans les grandes écoles. Fondée par des étudiants passionnés au sein d'Audencia Business School à Nantes, l'association s'est construite autour d'un objectif clair : créer des espaces où la culture urbaine peut s'exprimer librement, sur scène comme en studio.
+      </p>
+      <p>
+        Au fil des années, L'Odience a développé une identité forte à travers ses événements phares : les Rap Party à thème, le format Live Session inspiré des sessions Grünt, le Rap Jeux, le concours Nouvelle École, et le projet musical annuel La Purple Tape. Chaque concept est pensé pour mettre en valeur les talents du campus et créer des moments forts pour le public.
+      </p>
+      <p>
+        Aujourd'hui, L'Odience rassemble une quarantaine de membres actifs, organisé en pôles (événementiel, communication, médias, label, démarchage), et s'impose comme l'une des associations les plus dynamiques d'Audencia.
+      </p>
+    </div>
+    <div class="histoire-photo">
+      <!-- Remplacer par une vraie photo de groupe -->
+      🎤
+    </div>
+  </div>
+</div>
+
+<!-- ── CHIFFRES ── -->
+<div class="about-section">
+  <p class="section-label">En chiffres</p>
+  <h2 class="section-title">L'Odience aujourd'hui</h2>
+  <div class="chiffres-grid">
+    <div class="chiffre-bloc">
+      <div class="chiffre-number">40+</div>
+      <div class="chiffre-label">Membres actifs</div>
+    </div>
+    <div class="chiffre-bloc">
+      <div class="chiffre-number">6</div>
+      <div class="chiffre-label">Événements par an</div>
+    </div>
+    <div class="chiffre-bloc">
+      <div class="chiffre-number">500+</div>
+      <div class="chiffre-label">Spectateurs au Nouvelle École</div>
+    </div>
+    <div class="chiffre-bloc">
+      <div class="chiffre-number">3h</div>
+      <div class="chiffre-label">De live à la Live Session</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── VALEURS ── -->
+<div class="about-section">
+  <p class="section-label">Ce qui nous anime</p>
+  <h2 class="section-title">Nos valeurs</h2>
+  <div class="valeurs-grid">
+    <div class="valeur-card">
+      <div class="valeur-icon">🎤</div>
+      <div class="valeur-titre">La scène avant tout</div>
+      <p class="valeur-desc">On croit que la meilleure façon de vivre le rap, c'est de le vivre en direct. Chaque événement qu'on organise est conçu pour créer une expérience live inoubliable.</p>
+    </div>
+    <div class="valeur-card">
+      <div class="valeur-icon">🤝</div>
+      <div class="valeur-titre">L'inter-écoles</div>
+      <p class="valeur-desc">Le rap transcende les campus. Via la Live Session et nos collaborations, on construit des ponts entre écoles et crée une vraie communauté estudiantine autour de la culture urbaine.</p>
+    </div>
+    <div class="valeur-card">
+      <div class="valeur-icon">🎵</div>
+      <div class="valeur-titre">La création</div>
+      <p class="valeur-desc">De la prod à l'écriture, on donne les moyens aux artistes du campus de créer. La Purple Tape, c'est notre preuve concrète que le talent existe à Audencia.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── CTA ── -->
+<div class="about-cta">
+  <h2>Envie de nous rejoindre ?</h2>
+  <p>Tu es étudiant à Audencia et tu veux intégrer L'Odience ? Écris-nous.</p>
+  <a href="index.html#nous-ecrire" class="btn-primary">Nous contacter</a>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <span>© 2026 L'Odience — Association Culturelle de Nantes</span>
+  <span>SIRET 842 301 456 00027 — APE 9001Z</span>
+</footer>
+
+</body>
+</html>
