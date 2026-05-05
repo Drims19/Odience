@@ -653,6 +653,66 @@
       font-size: 0.88rem;
     }
 
+    /* ───── STATS ───── */
+    .stats-section {
+      background: var(--green-900);
+      padding: 72px 48px;
+      border-top: 1px solid var(--green-700);
+      border-bottom: 1px solid var(--green-700);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 2px;
+      margin-top: 48px;
+    }
+    .stat-bloc {
+      padding: 44px 28px;
+      text-align: center;
+      background: var(--green-800);
+      transition: background 0.2s;
+    }
+    .stat-bloc:hover { background: var(--green-700); }
+    .stat-bloc:nth-child(1),
+    .stat-bloc:nth-child(2),
+    .stat-bloc:nth-child(3) { grid-column: span 2; }
+    .stat-bloc:nth-child(4),
+    .stat-bloc:nth-child(5) { grid-column: span 3; }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--green-300);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .stat-bloc:nth-child(4) .stat-number,
+    .stat-bloc:nth-child(5) .stat-number { font-size: 3.6rem; }
+    .stat-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--green-200);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 8px;
+    }
+    .stat-desc {
+      font-size: 0.78rem;
+      color: var(--green-400);
+      line-height: 1.55;
+    }
+    @media (max-width: 768px) {
+      .stats-section { padding: 48px 24px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-bloc:nth-child(1),
+      .stat-bloc:nth-child(2),
+      .stat-bloc:nth-child(3),
+      .stat-bloc:nth-child(4),
+      .stat-bloc:nth-child(5) { grid-column: span 1; }
+      .stat-bloc:nth-child(4) .stat-number,
+      .stat-bloc:nth-child(5) .stat-number { font-size: 3rem; }
+    }
+
     /* ───── FOOTER ───── */
     footer {
       background: var(--green-900);
@@ -886,6 +946,39 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
         @lodience.abs
       </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STATS ═══ -->
+<section class="stats-section">
+  <p class="section-label">L'Odience en chiffres</p>
+  <h2 class="section-title">Ce qu'on représente</h2>
+  <div class="stats-grid">
+    <div class="stat-bloc">
+      <div class="stat-number">500</div>
+      <div class="stat-label">Personnes par Rap Party</div>
+      <p class="stat-desc">La soirée rap la plus attendue du campus</p>
+    </div>
+    <div class="stat-bloc">
+      <div class="stat-number">500</div>
+      <div class="stat-label">Places remplies à la Nouvelle École</div>
+      <p class="stat-desc">Un amphi comble avec des intervenants nantais</p>
+    </div>
+    <div class="stat-bloc">
+      <div class="stat-number">16</div>
+      <div class="stat-label">Équipes au Rap Jeux</div>
+      <p class="stat-desc">Un tournoi rap qui mobilise tout le campus</p>
+    </div>
+    <div class="stat-bloc">
+      <div class="stat-number">5000+</div>
+      <div class="stat-label">Vues sur la Live Session</div>
+      <p class="stat-desc">Le format inter-écoles qui rayonne sur les réseaux</p>
+    </div>
+    <div class="stat-bloc">
+      <div class="stat-number">2000</div>
+      <div class="stat-label">Abonnés Instagram</div>
+      <p class="stat-desc">Une communauté engagée autour de la culture urbaine</p>
     </div>
   </div>
 </section>
