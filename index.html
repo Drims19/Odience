@@ -746,18 +746,17 @@
     .back-to-top:hover { background: var(--green-400); }
 
     /* ───── TRANSITION DE PAGE ───── */
+    @keyframes pageIn {
+      from { opacity: 1; }
+      to   { opacity: 0; }
+    }
     .page-transition {
       position: fixed;
       inset: 0;
       background: var(--green-900);
       z-index: 9999;
-      opacity: 0;
       pointer-events: none;
-      transition: opacity 0.35s ease;
-    }
-    .page-transition.fade-out {
-      opacity: 1;
-      pointer-events: all;
+      animation: pageIn 0.5s ease 0.05s forwards;
     }
 
     /* ───── PRESSE ───── */
@@ -1589,31 +1588,16 @@
     btt.classList.toggle('visible', window.scrollY > 400);
   }, { passive: true });
 
-  /* ── Transition de page (fondu) ── */
-  const overlay = document.getElementById('page-transition');
-
-  // Fondu entrant à l'arrivée sur la page
-  document.addEventListener('DOMContentLoaded', () => {
-    overlay.style.opacity = '1';
-    overlay.style.pointerEvents = 'all';
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        overlay.style.transition = 'opacity 0.4s ease';
-        overlay.style.opacity = '0';
-        setTimeout(() => { overlay.style.pointerEvents = 'none'; }, 420);
-      });
-    });
-  });
-
-  // Fondu sortant avant de quitter la page
+  /* ── Transition de page — fondu sortant uniquement ── */
   document.querySelectorAll('a[href]').forEach(link => {
     const href = link.getAttribute('href');
     if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || link.target === '_blank') return;
     link.addEventListener('click', e => {
       e.preventDefault();
-      overlay.style.transition = 'opacity 0.35s ease';
-      overlay.style.opacity = '1';
-      overlay.style.pointerEvents = 'all';
+      const out = document.createElement('div');
+      out.style.cssText = 'position:fixed;inset:0;background:#080810;z-index:9999;opacity:0;pointer-events:none;transition:opacity 0.35s ease;';
+      document.body.appendChild(out);
+      requestAnimationFrame(() => { out.style.opacity = '1'; });
       setTimeout(() => { window.location.href = href; }, 370);
     });
   });
