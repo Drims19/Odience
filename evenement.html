@@ -205,33 +205,6 @@
 
     /* ── SECTION STREAMING ── */
     .streaming-section { margin-top: 64px; }
-    .streaming-add-bar {
-      display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; align-items: center;
-    }
-    .streaming-select {
-      background: var(--dark2); border: 1px solid var(--border);
-      color: var(--cream); padding: 10px 14px; border-radius: 3px;
-      font-family: 'Inter', sans-serif; font-size: 0.88rem;
-      outline: none; cursor: pointer; transition: border-color 0.2s;
-    }
-    .streaming-select:focus { border-color: var(--purple2); }
-    .streaming-url-input {
-      flex: 1; min-width: 200px;
-      background: var(--dark2); border: 1px solid var(--border);
-      color: var(--cream); padding: 10px 16px; border-radius: 3px;
-      font-family: 'Inter', sans-serif; font-size: 0.88rem;
-      outline: none; transition: border-color 0.2s;
-    }
-    .streaming-url-input::placeholder { color: var(--purple3); opacity: 0.6; }
-    .streaming-url-input:focus { border-color: var(--purple2); }
-    .btn-add-stream {
-      background: var(--purple); color: var(--cream);
-      border: none; padding: 10px 24px; border-radius: 3px;
-      font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.08em;
-      cursor: pointer; transition: background 0.2s; white-space: nowrap;
-    }
-    .btn-add-stream:hover { background: var(--purple2); }
     .streaming-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;
     }
@@ -249,15 +222,6 @@
     .streaming-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
     .streaming-name { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.92rem; }
     .streaming-label { font-size: 0.72rem; color: var(--purple3); text-transform: uppercase; letter-spacing: 0.06em; }
-    .streaming-remove {
-      position: absolute; top: 6px; right: 6px;
-      background: rgba(0,0,0,0.6); color: #fff; border: none;
-      border-radius: 50%; width: 22px; height: 22px; font-size: 0.85rem;
-      cursor: pointer; display: none; align-items: center; justify-content: center;
-      transition: background 0.2s;
-    }
-    .streaming-card:hover .streaming-remove { display: flex; }
-    .streaming-remove:hover { background: rgba(229,115,115,0.8); }
     .streaming-empty {
       grid-column: 1 / -1; padding: 48px; text-align: center;
       color: var(--purple3); font-size: 0.88rem;
@@ -267,26 +231,6 @@
 
     /* ── SECTION YOUTUBE ── */
     .youtube-section { margin-top: 64px; }
-    .youtube-add-bar {
-      display: flex; gap: 12px; margin-bottom: 32px; flex-wrap: wrap;
-    }
-    .youtube-input {
-      flex: 1; min-width: 220px;
-      background: var(--dark2); border: 1px solid var(--border);
-      color: var(--cream); padding: 10px 16px; border-radius: 3px;
-      font-family: 'Inter', sans-serif; font-size: 0.88rem;
-      outline: none; transition: border-color 0.2s;
-    }
-    .youtube-input::placeholder { color: var(--purple3); opacity: 0.6; }
-    .youtube-input:focus { border-color: var(--purple2); }
-    .btn-add-video {
-      background: var(--purple); color: var(--cream);
-      border: none; padding: 10px 24px; border-radius: 3px;
-      font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.08em;
-      cursor: pointer; transition: background 0.2s; white-space: nowrap;
-    }
-    .btn-add-video:hover { background: var(--purple2); }
     .youtube-grid {
       display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
     }
@@ -298,15 +242,6 @@
     .youtube-card iframe {
       width: 100%; aspect-ratio: 16/9; display: block; border: none;
     }
-    .youtube-remove {
-      position: absolute; top: 8px; right: 8px;
-      background: rgba(0,0,0,0.7); color: #fff; border: none;
-      border-radius: 50%; width: 28px; height: 28px; font-size: 1rem;
-      cursor: pointer; display: none; align-items: center; justify-content: center;
-      transition: background 0.2s;
-    }
-    .youtube-card:hover .youtube-remove { display: flex; }
-    .youtube-remove:hover { background: rgba(229,115,115,0.8); }
     .youtube-empty {
       grid-column: 1 / -1; padding: 48px; text-align: center;
       color: var(--purple3); font-size: 0.88rem; border: 1px dashed var(--border);
@@ -382,20 +317,6 @@
         <h2 class="section-title">Le projet sur les plateformes</h2>
       </div>
     </div>
-    <div class="streaming-add-bar">
-      <select class="streaming-select" id="streaming-platform">
-        <option value="Spotify" data-icon="🎧">Spotify</option>
-        <option value="Apple Music" data-icon="🎵">Apple Music</option>
-        <option value="Deezer" data-icon="🎶">Deezer</option>
-        <option value="SoundCloud" data-icon="☁️">SoundCloud</option>
-        <option value="YouTube Music" data-icon="▶️">YouTube Music</option>
-        <option value="Tidal" data-icon="🌊">Tidal</option>
-        <option value="Amazon Music" data-icon="📦">Amazon Music</option>
-        <option value="Autre" data-icon="🔗">Autre</option>
-      </select>
-      <input class="streaming-url-input" id="streaming-url" type="text" placeholder="Colle le lien de la plateforme…" />
-      <button class="btn-add-stream" onclick="addStreamLink()">+ Ajouter</button>
-    </div>
     <div class="streaming-grid" id="streaming-grid"></div>
   </div>
 
@@ -406,10 +327,6 @@
         <p class="section-label">Vidéos</p>
         <h2 class="section-title">Épisodes sur YouTube</h2>
       </div>
-    </div>
-    <div class="youtube-add-bar">
-      <input class="youtube-input" id="youtube-url-input" type="text" placeholder="Colle un lien YouTube ici…" />
-      <button class="btn-add-video" onclick="addYoutubeVideo()">+ Ajouter</button>
     </div>
     <div class="youtube-grid" id="youtube-grid"></div>
   </div>
@@ -458,10 +375,6 @@
         <p class="section-label">Vidéos</p>
         <h2 class="section-title">Replays sur YouTube</h2>
       </div>
-    </div>
-    <div class="youtube-add-bar">
-      <input class="youtube-input" id="youtube-extra-input" type="text" placeholder="Colle un lien YouTube ici…" />
-      <button class="btn-add-video" onclick="addYoutubeExtra()">+ Ajouter</button>
     </div>
     <div class="youtube-grid" id="youtube-extra-grid"></div>
   </div>
@@ -603,26 +516,16 @@
     document.getElementById('galerie-section-2').style.display = 'none';
   }
 
-  function getStreamLinks() {
-    return JSON.parse(localStorage.getItem('stream_' + eventId) || '[]');
-  }
-  function setStreamLinks(arr) {
-    localStorage.setItem('stream_' + eventId, JSON.stringify(arr));
-  }
-
   function renderStreaming() {
-    const defaultLinks = ev.defaultStreaming || [];
-    const userLinks = getStreamLinks();
-    const allLinks = [...defaultLinks, ...userLinks];
+    const links = ev.defaultStreaming || [];
     const grid = document.getElementById('streaming-grid');
     if (!grid) return;
     grid.innerHTML = '';
-    if (allLinks.length === 0) {
-      grid.innerHTML = `<div class="streaming-empty"><span>🎵</span>Aucun lien pour l'instant — ajoute une plateforme ci-dessus</div>`;
+    if (links.length === 0) {
+      grid.innerHTML = `<div class="streaming-empty"><span>🎵</span>Aucun lien disponible pour l'instant</div>`;
       return;
     }
-    allLinks.forEach((item, i) => {
-      const isDefault = i < defaultLinks.length;
+    links.forEach(item => {
       const card = document.createElement('a');
       card.className = 'streaming-card';
       card.href = item.url;
@@ -633,40 +536,10 @@
         <div class="streaming-info">
           <span class="streaming-name">${item.platform}</span>
           <span class="streaming-label">Écouter le projet</span>
-        </div>
-        ${!isDefault ? `<button class="streaming-remove" onclick="event.preventDefault();removeStreamLink(${i - defaultLinks.length})">×</button>` : ''}`;
+        </div>`;
       grid.appendChild(card);
     });
   }
-
-  function addStreamLink() {
-    const platform = document.getElementById('streaming-platform')?.value;
-    const urlInput = document.getElementById('streaming-url');
-    const url = urlInput?.value.trim();
-    if (!url || !url.startsWith('http')) {
-      if (urlInput) { urlInput.style.borderColor = '#e57373'; setTimeout(() => urlInput.style.borderColor = '', 1200); }
-      return;
-    }
-    const defaultLinks = ev.defaultStreaming || [];
-    const links = getStreamLinks();
-    const alreadyExists = [...defaultLinks, ...links].some(l => l.url === url || l.platform === platform);
-    if (alreadyExists) { urlInput.value = ''; return; }
-    links.push({ platform, url });
-    setStreamLinks(links);
-    urlInput.value = '';
-    renderStreaming();
-  }
-
-  function removeStreamLink(i) {
-    const links = getStreamLinks();
-    links.splice(i, 1);
-    setStreamLinks(links);
-    renderStreaming();
-  }
-
-  document.getElementById('streaming-url')?.addEventListener('keydown', e => {
-    if (e.key === 'Enter') addStreamLink();
-  });
 
   if (ev.streaming) renderStreaming();
 
@@ -688,85 +561,15 @@
     return null;
   }
 
-  function getVideos() {
-    return JSON.parse(localStorage.getItem('yt_' + eventId) || '[]');
-  }
-  function setVideos(arr) {
-    localStorage.setItem('yt_' + eventId, JSON.stringify(arr));
-  }
-
   function renderYoutube() {
-    const defaultVideos = ev.defaultYoutubeVideos || [];
-    const userVideos = getVideos();
-    const allVideos = [...defaultVideos, ...userVideos];
+    const videos = ev.defaultYoutubeVideos || [];
     const grid = document.getElementById('youtube-grid');
     grid.innerHTML = '';
-    if (allVideos.length === 0) {
-      grid.innerHTML = `<div class="youtube-empty"><span>▶️</span>Colle un lien YouTube ci-dessus pour ajouter un épisode</div>`;
+    if (videos.length === 0) {
+      grid.innerHTML = `<div class="youtube-empty"><span>▶️</span>Aucune vidéo pour l'instant</div>`;
       return;
     }
-    allVideos.forEach((id, i) => {
-      const isDefault = i < defaultVideos.length;
-      const card = document.createElement('div');
-      card.className = 'youtube-card';
-      card.innerHTML = `
-        <iframe src="https://www.youtube.com/embed/${id}" allowfullscreen
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-        </iframe>
-        ${!isDefault ? `<button class="youtube-remove" onclick="removeVideo(${i - defaultVideos.length})">×</button>` : ''}`;
-      grid.appendChild(card);
-    });
-  }
-
-  function addYoutubeVideo() {
-    const input = document.getElementById('youtube-url-input');
-    const id = extractYoutubeId(input.value.trim());
-    if (!id) { input.style.borderColor = '#e57373'; setTimeout(() => input.style.borderColor = '', 1200); return; }
-    const defaultVideos = ev.defaultYoutubeVideos || [];
-    const videos = getVideos();
-    if (videos.includes(id) || defaultVideos.includes(id)) { input.value = ''; return; }
-    videos.push(id);
-    setVideos(videos);
-    input.value = '';
-    renderYoutube();
-  }
-
-  function removeVideo(i) {
-    const videos = getVideos();
-    videos.splice(i, 1);
-    setVideos(videos);
-    renderYoutube();
-  }
-
-  document.getElementById('youtube-url-input')?.addEventListener('keydown', e => {
-    if (e.key === 'Enter') addYoutubeVideo();
-  });
-
-  if (ev.youtube) renderYoutube();
-
-  // ── YouTube Extra (Live Session : galeries + replays) ──
-  if (ev.youtubeExtra) {
-    document.getElementById('youtube-extra-section').style.display = 'block';
-  }
-
-  function getVideosExtra() {
-    return JSON.parse(localStorage.getItem('ytx_' + eventId) || '[]');
-  }
-  function setVideosExtra(arr) {
-    localStorage.setItem('ytx_' + eventId, JSON.stringify(arr));
-  }
-
-  function renderYoutubeExtra() {
-    const defaultVideos = ev.defaultYoutubeVideos || [];
-    const userVideos = getVideosExtra();
-    const grid = document.getElementById('youtube-extra-grid');
-    if (!grid) return;
-    grid.innerHTML = '';
-    if (defaultVideos.length === 0 && userVideos.length === 0) {
-      grid.innerHTML = `<div class="youtube-empty"><span>▶️</span>Colle un lien YouTube ci-dessus pour ajouter un replay</div>`;
-      return;
-    }
-    defaultVideos.forEach(id => {
+    videos.forEach(id => {
       const card = document.createElement('div');
       card.className = 'youtube-card';
       card.innerHTML = `
@@ -775,42 +578,34 @@
         </iframe>`;
       grid.appendChild(card);
     });
-    userVideos.forEach((id, i) => {
+  }
+
+  if (ev.youtube) renderYoutube();
+
+  // ── YouTube Extra (Live Session : galeries + replays) ──
+  if (ev.youtubeExtra) {
+    document.getElementById('youtube-extra-section').style.display = 'block';
+  }
+
+  function renderYoutubeExtra() {
+    const videos = ev.defaultYoutubeVideos || [];
+    const grid = document.getElementById('youtube-extra-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    if (videos.length === 0) {
+      grid.innerHTML = `<div class="youtube-empty"><span>▶️</span>Aucun replay pour l'instant</div>`;
+      return;
+    }
+    videos.forEach(id => {
       const card = document.createElement('div');
       card.className = 'youtube-card';
       card.innerHTML = `
         <iframe src="https://www.youtube.com/embed/${id}" allowfullscreen
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-        </iframe>
-        <button class="youtube-remove" onclick="removeVideoExtra(${i})">×</button>`;
+        </iframe>`;
       grid.appendChild(card);
     });
   }
-
-  function addYoutubeExtra() {
-    const input = document.getElementById('youtube-extra-input');
-    const id = extractYoutubeId(input.value.trim());
-    if (!id) { input.style.borderColor = '#e57373'; setTimeout(() => input.style.borderColor = '', 1200); return; }
-    const defaultVideos = ev.defaultYoutubeVideos || [];
-    if (defaultVideos.includes(id)) { input.value = ''; return; }
-    const videos = getVideosExtra();
-    if (videos.includes(id)) { input.value = ''; return; }
-    videos.push(id);
-    setVideosExtra(videos);
-    input.value = '';
-    renderYoutubeExtra();
-  }
-
-  function removeVideoExtra(i) {
-    const videos = getVideosExtra();
-    videos.splice(i, 1);
-    setVideosExtra(videos);
-    renderYoutubeExtra();
-  }
-
-  document.getElementById('youtube-extra-input')?.addEventListener('keydown', e => {
-    if (e.key === 'Enter') addYoutubeExtra();
-  });
 
   if (ev.youtubeExtra) renderYoutubeExtra();
 
