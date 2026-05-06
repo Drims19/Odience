@@ -259,6 +259,28 @@
       .galerie-grid { grid-template-columns: 1fr 1fr; }
       .galerie-item:first-child { grid-column: span 2; }
     }
+  
+    /* ── TRANSITION DE PAGE ── */
+    .page-transition {
+      position: fixed; inset: 0;
+      background: #080810;
+      z-index: 9999; opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .back-to-top {
+      position: fixed; bottom: 32px; right: 32px;
+      width: 44px; height: 44px;
+      background: #6b21a8; color: #f3f0ff;
+      border: none; border-radius: 50%; font-size: 1.2rem;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      z-index: 500; opacity: 0; transform: translateY(16px);
+      transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s;
+      pointer-events: none;
+    }
+    .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .back-to-top:hover { background: #9333ea; }
+
   </style>
 
   <!-- Open Graph / WhatsApp / Instagram -->
@@ -275,6 +297,11 @@
   <meta name="description"        content="Rap Party, L'Odience Live Session, Nouvelle École, Rap Jeux... retrouvez tous les événements de L'Odience." />
 </head>
 <body>
+<div class="page-transition" id="page-transition"></div>
+<button class="back-to-top" id="back-to-top" aria-label="Retour en haut" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<div class="page-transition" id="page-transition"></div>
+<button class="back-to-top" id="back-to-top" aria-label="Retour en haut" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <!-- NAV -->
 <nav>
@@ -699,5 +726,38 @@
   if (ev.multiEdition) renderGalerieNum(2);
   if (ev.multiEdition && ev.edition3) renderGalerieNum(3);
 </script>
+
+<script>
+  // Bouton retour en haut
+  const _btt = document.getElementById('back-to-top');
+  if (_btt) window.addEventListener('scroll', () => {
+    _btt.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+
+  // Fondu entrant
+  const _ov = document.getElementById('page-transition');
+  if (_ov) {
+    _ov.style.opacity = '1';
+    _ov.style.pointerEvents = 'all';
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      _ov.style.transition = 'opacity 0.4s ease';
+      _ov.style.opacity = '0';
+      setTimeout(() => { _ov.style.pointerEvents = 'none'; }, 420);
+    }));
+    // Fondu sortant
+    document.querySelectorAll('a[href]').forEach(link => {
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || link.target === '_blank') return;
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        _ov.style.transition = 'opacity 0.35s ease';
+        _ov.style.opacity = '1';
+        _ov.style.pointerEvents = 'all';
+        setTimeout(() => { window.location.href = href; }, 370);
+      });
+    });
+  }
+</script>
+
 </body>
 </html>

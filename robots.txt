@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lodience.netlify.app/sitemap.xml
