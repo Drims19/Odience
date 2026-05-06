@@ -26,7 +26,8 @@
       "Bash(sips -s format webp -Z 1920 nouvelle-ecole.jpg --out nouvelle-ecole.webp)",
       "Bash(sips -s format webp logo.png --out logo.webp)",
       "Bash(python3 -c \"from PIL import Image; print\\('PIL OK'\\)\")",
-      "Bash(python3 -c \"import PIL; print\\('PIL OK'\\)\")"
+      "Bash(python3 -c \"import PIL; print\\('PIL OK'\\)\")",
+      "WebFetch(domain:www.mondedesgrandesecoles.fr)"
     ]
   }
 }
