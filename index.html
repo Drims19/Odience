@@ -2,6 +2,8 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="apple-touch-icon" href="logo.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>L'Odience — Association Culturelle de Nantes</title>
 
@@ -970,27 +972,27 @@
   <h2 class="section-title">Ce qu'on représente</h2>
   <div class="stats-grid">
     <div class="stat-bloc">
-      <div class="stat-number">500</div>
+      <div class="stat-number" data-target="500">0</div>
       <div class="stat-label">Personnes par Rap Party</div>
       <p class="stat-desc">La soirée rap la plus attendue du campus</p>
     </div>
     <div class="stat-bloc">
-      <div class="stat-number">2000</div>
+      <div class="stat-number" data-target="2000">0</div>
       <div class="stat-label">Abonnés Instagram</div>
       <p class="stat-desc">Une communauté engagée autour de la culture urbaine</p>
     </div>
     <div class="stat-bloc">
-      <div class="stat-number">16</div>
+      <div class="stat-number" data-target="16">0</div>
       <div class="stat-label">Équipes au Rap Jeux</div>
       <p class="stat-desc">Un tournoi rap qui mobilise tout le campus</p>
     </div>
     <div class="stat-bloc">
-      <div class="stat-number">5000+</div>
+      <div class="stat-number" data-target="5000" data-suffix="+">0</div>
       <div class="stat-label">Vues sur la Live Session</div>
       <p class="stat-desc">Le format inter-écoles qui rayonne sur les réseaux</p>
     </div>
     <div class="stat-bloc">
-      <div class="stat-number">500</div>
+      <div class="stat-number" data-target="500">0</div>
       <div class="stat-label">Places remplies à la Nouvelle École</div>
       <p class="stat-desc">Un amphi comble avec des intervenants nantais</p>
     </div>
@@ -1307,6 +1309,42 @@
     btn.textContent = 'Envoyer le message';
     btn.disabled = false;
   }
+</script>
+
+<script>
+  /* ── Compteur animé au scroll ── */
+  const statNumbers = document.querySelectorAll('.stat-number[data-target]');
+
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target, 10);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1800;
+    const step = 16;
+    const steps = duration / step;
+    const increment = target / steps;
+    let current = 0;
+
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        el.textContent = target.toLocaleString('fr-FR') + suffix;
+        clearInterval(timer);
+      } else {
+        el.textContent = Math.floor(current).toLocaleString('fr-FR') + suffix;
+      }
+    }, step);
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.dataset.animated) {
+        entry.target.dataset.animated = 'true';
+        animateCounter(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  statNumbers.forEach(el => observer.observe(el));
 </script>
 
 </body>
