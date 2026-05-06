@@ -716,6 +716,85 @@
       .stat-bloc:nth-child(5) .stat-number { font-size: 3rem; }
     }
 
+    /* ───── PRESSE ───── */
+    #presse { background: var(--green-900); }
+
+    .presse-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 8px;
+    }
+
+    .presse-card {
+      background: var(--green-800);
+      border: 1px solid var(--green-700);
+      border-radius: 6px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: border-color 0.2s, transform 0.2s;
+      text-decoration: none;
+      color: var(--cream);
+    }
+    .presse-card:hover { border-color: var(--green-400); transform: translateY(-3px); }
+
+    .presse-source {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--green-300);
+    }
+
+    .presse-titre {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--cream);
+      line-height: 1.35;
+    }
+
+    .presse-date {
+      font-size: 0.75rem;
+      color: var(--green-300);
+      opacity: 0.7;
+    }
+
+    .presse-excerpt {
+      font-size: 0.85rem;
+      color: var(--green-200);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .presse-lien {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--green-400);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+      transition: color 0.2s;
+    }
+    .presse-card:hover .presse-lien { color: var(--green-300); }
+
+    .presse-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 64px 32px;
+      border: 1px dashed var(--green-700);
+      border-radius: 6px;
+      color: var(--green-300);
+      font-size: 0.88rem;
+      line-height: 1.8;
+    }
+    .presse-empty span { font-size: 2rem; display: block; margin-bottom: 12px; }
+
+    @media (max-width: 900px) { .presse-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .presse-grid { grid-template-columns: 1fr; } }
+
     /* ───── FOOTER ───── */
     footer {
       background: var(--green-900);
@@ -939,6 +1018,7 @@
   <ul class="nav-links">
     <li><a href="#actualites">Événements</a></li>
     <li><a href="#evenements">Calendrier</a></li>
+    <li><a href="#presse">Presse</a></li>
     <li><a href="#partenaires">Partenaires</a></li>
     <li><a href="#nous-ecrire" class="nav-cta">Nous contacter</a></li>
   </ul>
@@ -1084,6 +1164,32 @@
   </div>
 </section>
 
+
+<!-- ═══ PRESSE ═══ -->
+<section id="presse">
+  <p class="section-label">Médias</p>
+  <h2 class="section-title">Ils parlent de nous</h2>
+  <div class="presse-grid">
+
+    <!-- ── Ajouter un article : copier ce bloc et remplir les champs ── -->
+    <!--
+    <a class="presse-card" href="URL_ARTICLE" target="_blank" rel="noopener">
+      <span class="presse-source">Nom du média</span>
+      <p class="presse-titre">Titre de l'article</p>
+      <span class="presse-date">Mois AAAA</span>
+      <p class="presse-excerpt">Courte description ou extrait de l'article.</p>
+      <span class="presse-lien">Lire l'article →</span>
+    </a>
+    -->
+
+    <div class="presse-empty">
+      <span>📰</span>
+      Des articles arrivent bientôt.<br />
+      Tu as vu L'Odience mentionné quelque part ? <a href="#nous-ecrire" style="color:var(--green-300)">Dis-le nous.</a>
+    </div>
+
+  </div>
+</section>
 
 <!-- ═══ PARTENAIRES ═══ -->
 <section id="partenaires" style="background: var(--green-800);">
