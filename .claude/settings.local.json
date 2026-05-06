@@ -9,7 +9,24 @@
       "WebSearch",
       "WebFetch(domain:nominatim.openstreetmap.org)",
       "Bash(read f *)",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(grep -E \"\\\\.\\(jpg|jpeg|png|webp|gif\\)$\" -i)",
+      "Bash(cwebp -version)",
+      "Bash(sips --help)",
+      "Bash(ffmpeg -version)",
+      "Bash(brew list *)",
+      "Bash(brew install *)",
+      "Bash(sips --formats)",
+      "Bash(/opt/homebrew/bin/brew list *)",
+      "Bash(/usr/local/bin/brew list *)",
+      "Bash(sips --helpInformation)",
+      "Bash(sips -s format webp -Z 1920 photos/live-session-cover.jpg --out photos/live-session-cover.webp)",
+      "Bash(sips -s format webp -Z 1920 photos/rap-party-cover.jpg --out photos/rap-party-cover.webp)",
+      "Bash(sips -s format webp -Z 1200 photos/purple-tape-cover.jpg --out photos/purple-tape-cover.webp)",
+      "Bash(sips -s format webp -Z 1920 nouvelle-ecole.jpg --out nouvelle-ecole.webp)",
+      "Bash(sips -s format webp logo.png --out logo.webp)",
+      "Bash(python3 -c \"from PIL import Image; print\\('PIL OK'\\)\")",
+      "Bash(python3 -c \"import PIL; print\\('PIL OK'\\)\")"
     ]
   }
 }
