@@ -145,15 +145,6 @@
       display: flex; align-items: center; justify-content: space-between;
       margin-bottom: 28px; flex-wrap: wrap; gap: 16px;
     }
-    .btn-add-photo {
-      background: var(--purple); color: var(--cream);
-      border: none; padding: 10px 24px; border-radius: 3px;
-      font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.08em;
-      cursor: pointer; transition: background 0.2s;
-    }
-    .btn-add-photo:hover { background: var(--purple2); }
-
     .galerie-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -186,16 +177,6 @@
     .galerie-item:hover .galerie-item-placeholder { background: rgba(107,33,168,0.1); }
     .galerie-item-placeholder span { font-size: 1.8rem; }
 
-    .galerie-item .remove-btn {
-      position: absolute; top: 8px; right: 8px;
-      background: rgba(0,0,0,0.7); color: #fff;
-      border: none; border-radius: 50%; width: 28px; height: 28px;
-      font-size: 1rem; cursor: pointer; display: none;
-      align-items: center; justify-content: center;
-      transition: background 0.2s;
-    }
-    .galerie-item:hover .remove-btn { display: flex; }
-    .galerie-item .remove-btn:hover { background: rgba(229,115,115,0.8); }
 
     /* ── LIGHTBOX ── */
     .lightbox {
@@ -221,9 +202,6 @@
     .lightbox-nav:hover { background: var(--purple2); }
     .lightbox-prev { left: 20px; }
     .lightbox-next { right: 20px; }
-
-    /* ── HIDDEN FILE INPUT ── */
-    #file-input { display: none; }
 
     /* ── SECTION STREAMING ── */
     .streaming-section { margin-top: 64px; }
@@ -430,7 +408,6 @@
         <p class="section-label">Galerie</p>
         <h2 class="section-title" id="galerie-title-1">Photos de l'événement</h2>
       </div>
-      <button class="btn-add-photo" onclick="activeGalerie=1; document.getElementById('file-input').click()">+ Ajouter des photos</button>
     </div>
     <div class="galerie-grid" id="galerie-grid-1"></div>
   </div>
@@ -443,7 +420,6 @@
           <p class="section-label">Galerie</p>
           <h2 class="section-title" id="galerie-title-2">Première Édition</h2>
         </div>
-        <button class="btn-add-photo" onclick="activeGalerie=2; document.getElementById('file-input').click()">+ Ajouter des photos</button>
       </div>
       <div class="galerie-grid" id="galerie-grid-2"></div>
     </div>
@@ -457,7 +433,6 @@
           <p class="section-label">Galerie</p>
           <h2 class="section-title" id="galerie-title-3">Saison 1</h2>
         </div>
-        <button class="btn-add-photo" onclick="activeGalerie=3; document.getElementById('file-input').click()">+ Ajouter des photos</button>
       </div>
       <div class="galerie-grid" id="galerie-grid-3"></div>
     </div>
@@ -481,7 +456,6 @@
 </div>
 
 <!-- Input fichier caché -->
-<input type="file" id="file-input" multiple accept="image/*" onchange="handleFiles(this.files)" />
 
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox">
@@ -828,7 +802,6 @@
   if (ev.youtubeExtra) renderYoutubeExtra();
 
   // ── Multi-édition ──
-  let activeGalerie = 1;
   let lightboxPhotos = [];
   let lightboxIndex = 0;
 
@@ -844,31 +817,21 @@
     document.getElementById('galerie-title-1').textContent = "Photos de l'événement";
   }
 
-  function getPhotos(num) {
-    return JSON.parse(localStorage.getItem('photos_' + eventId + '_' + num) || '[]');
-  }
-  function setPhotos(num, arr) {
-    localStorage.setItem('photos_' + eventId + '_' + num, JSON.stringify(arr));
-  }
-
   function renderGalerieNum(num) {
-    const userPhotos = getPhotos(num);
-    const defaultPhotos = ev['defaultPhotos' + num] || [];
-    const allPhotos = [...defaultPhotos, ...userPhotos];
+    const photos = ev['defaultPhotos' + num] || [];
     const grid = document.getElementById('galerie-grid-' + num);
     grid.innerHTML = '';
 
-    if (allPhotos.length === 0) {
+    if (photos.length === 0) {
       const ph = document.createElement('div');
       ph.className = 'galerie-item';
       ph.style.minHeight = '280px';
-      ph.onclick = () => { activeGalerie = num; document.getElementById('file-input').click(); };
-      ph.innerHTML = `<div class="galerie-item-placeholder"><span>📷</span>Cliquez pour ajouter des photos</div>`;
+      ph.innerHTML = `<div class="galerie-item-placeholder"><span>📷</span>Aucune photo pour l'instant</div>`;
       grid.appendChild(ph);
       return;
     }
 
-    allPhotos.forEach((src, i) => {
+    photos.forEach((src, i) => {
       const item = document.createElement('div');
       item.className = 'galerie-item';
       if (i === 0) item.style.minHeight = '340px';
@@ -879,17 +842,6 @@
       img.onclick = () => openLightboxAll(num, i);
 
       item.appendChild(img);
-
-      // Bouton supprimer uniquement pour les photos ajoutées par l'utilisateur
-      if (i >= defaultPhotos.length) {
-        const userIdx = i - defaultPhotos.length;
-        const removeBtn = document.createElement('button');
-        removeBtn.className = 'remove-btn';
-        removeBtn.textContent = '×';
-        removeBtn.onclick = (e) => { e.stopPropagation(); removePhotoNum(num, userIdx); };
-        item.appendChild(removeBtn);
-      }
-
       grid.appendChild(item);
 
       // Hero cover avec 1ère photo de galerie 1
@@ -903,44 +855,14 @@
     });
   }
 
-  // Lightbox qui ouvre sur toutes les photos (défaut + user)
   function openLightboxAll(num, i) {
-    const defaultPhotos = ev['defaultPhotos' + num] || [];
-    const userPhotos = getPhotos(num);
-    lightboxPhotos = [...defaultPhotos, ...userPhotos];
+    lightboxPhotos = ev['defaultPhotos' + num] || [];
     lightboxIndex = i;
     document.getElementById('lightbox-img').src = lightboxPhotos[i];
     document.getElementById('lightbox').classList.add('open');
-  }
-
-  function handleFiles(files) {
-    const num = activeGalerie;
-    const photos = getPhotos(num);
-    Array.from(files).forEach(file => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        photos.push(e.target.result);
-        setPhotos(num, photos);
-        renderGalerieNum(num);
-      };
-      reader.readAsDataURL(file);
-    });
-  }
-
-  function removePhotoNum(num, i) {
-    const photos = getPhotos(num);
-    photos.splice(i, 1);
-    setPhotos(num, photos);
-    renderGalerieNum(num);
   }
 
   // ── Lightbox ──
-  function openLightbox(num, i) {
-    lightboxPhotos = getPhotos(num);
-    lightboxIndex = i;
-    document.getElementById('lightbox-img').src = lightboxPhotos[i];
-    document.getElementById('lightbox').classList.add('open');
-  }
 
   function closeLightbox() {
     document.getElementById('lightbox').classList.remove('open');
