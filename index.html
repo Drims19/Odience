@@ -1633,6 +1633,7 @@
   }
 
   /* ── Fade-in au scroll ── */
+  /* ── Fade-in au scroll (rejoue à chaque passage) ── */
   const fadeEls = document.querySelectorAll('.actu-card, .presse-card, .stat-bloc, .membre-card, .valeur-card, .partner-logo');
   fadeEls.forEach((el, i) => {
     el.classList.add('fade-up');
@@ -1642,45 +1643,53 @@
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        fadeObserver.unobserve(entry.target);
+      } else {
+        // Remet l'état initial quand l'élément quitte l'écran
+        entry.target.classList.remove('visible');
       }
     });
   }, { threshold: 0.12 });
   fadeEls.forEach(el => fadeObserver.observe(el));
 
-  /* ── Compteur animé au scroll ── */
+  /* ── Compteur animé au scroll (rejoue à chaque passage) ── */
   const statNumbers = document.querySelectorAll('.stat-number[data-target]');
 
   function animateCounter(el) {
+    // Annule un compteur en cours si l'élément repasse
+    if (el._counterTimer) clearInterval(el._counterTimer);
     const target = parseInt(el.dataset.target, 10);
     const suffix = el.dataset.suffix || '';
-    const duration = 1800;
+    const duration = 1600;
     const step = 16;
     const steps = duration / step;
     const increment = target / steps;
     let current = 0;
+    el.textContent = '0' + suffix;
 
-    const timer = setInterval(() => {
+    el._counterTimer = setInterval(() => {
       current += increment;
       if (current >= target) {
         el.textContent = target.toLocaleString('fr-FR') + suffix;
-        clearInterval(timer);
+        clearInterval(el._counterTimer);
       } else {
         el.textContent = Math.floor(current).toLocaleString('fr-FR') + suffix;
       }
     }, step);
   }
 
-  const observer = new IntersectionObserver((entries) => {
+  const counterObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting && !entry.target.dataset.animated) {
-        entry.target.dataset.animated = 'true';
+      if (entry.isIntersecting) {
         animateCounter(entry.target);
+      } else {
+        // Remet à 0 quand l'élément quitte l'écran
+        if (entry.target._counterTimer) clearInterval(entry.target._counterTimer);
+        entry.target.textContent = '0' + (entry.target.dataset.suffix || '');
       }
     });
   }, { threshold: 0.3 });
 
-  statNumbers.forEach(el => observer.observe(el));
+  statNumbers.forEach(el => counterObserver.observe(el));
 </script>
 
 </body>
