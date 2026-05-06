@@ -649,6 +649,7 @@
       const img = document.createElement('img');
       img.src = src;
       img.alt = 'Photo ' + (i + 1);
+      img.loading = i === 0 ? 'eager' : 'lazy';
       img.onclick = () => openLightboxAll(num, i);
 
       item.appendChild(img);
