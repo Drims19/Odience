@@ -51,7 +51,8 @@
       "mcp__visualize__show_widget",
       "Bash(python3 -c \"import PIL; print\\('PIL OK', PIL.__version__\\)\")",
       "Bash(git remote *)",
-      "Bash(git fetch *)"
+      "Bash(git fetch *)",
+      "WebFetch(domain:drims19.github.io)"
     ]
   }
 }
