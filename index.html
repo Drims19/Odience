@@ -199,36 +199,70 @@
       align-items: center;
     }
 
-    .btn-primary {
-      background: var(--green-400);
-      color: var(--cream);
+    /* ── STAR BUTTONS (lumière animée sur la bordure) ── */
+    .star-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       padding: 14px 32px;
       font-size: 0.85rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       border: none;
-      border-radius: 2px;
+      border-radius: 9999px;
       cursor: pointer;
-      transition: background 0.2s, transform 0.15s;
-      display: inline-block;
+      overflow: hidden;
+      isolation: isolate;
+      color: var(--cream);
+      background: transparent;
+      transition: transform 0.15s ease;
+      --light-color: #f3e8ff;
+      --btn-bg: #1a1130;
+      --border-w: 2px;
     }
-    .btn-primary:hover { background: var(--green-300); transform: translateY(-1px); }
+    .star-btn::before {
+      content: "";
+      position: absolute;
+      z-index: -2;
+      left: 50%; top: 50%;
+      width: 260%;
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+      background: conic-gradient(from 0deg,
+        transparent 0deg, transparent 250deg,
+        var(--light-color) 318deg, #ffffff 340deg, var(--light-color) 352deg,
+        transparent 360deg);
+      animation: star-spin 3s linear infinite;
+    }
+    .star-btn::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: var(--border-w);
+      border-radius: inherit;
+      background: var(--btn-bg);
+    }
+    .star-btn:hover { transform: translateY(-2px); }
+    .star-btn > span,
+    .star-btn > svg { position: relative; z-index: 1; }
+    .star-btn > span {
+      background: linear-gradient(to top, #a78bca, var(--cream));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    /* Variante contour : lumière violette, fond plus sombre */
+    .star-btn.star-outline {
+      --light-color: #c084fc;
+      --btn-bg: #10101e;
+    }
 
-    .btn-outline {
-      border: 1px solid var(--green-500);
-      color: var(--green-200);
-      padding: 14px 32px;
-      font-size: 0.85rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      border-radius: 2px;
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
-      display: inline-block;
+    @keyframes star-spin {
+      to { transform: translate(-50%, -50%) rotate(360deg); }
     }
-    .btn-outline:hover { border-color: var(--green-300); color: var(--cream); }
 
     /* ───── SECTION BASE ───── */
     section { padding: 96px 48px; }
@@ -487,6 +521,7 @@
       border-radius: 6px;
       padding: 32px 20px 28px;
       text-align: center;
+      cursor: pointer;
       transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
     }
     .partner-card:hover {
@@ -494,6 +529,123 @@
       transform: translateY(-4px);
       box-shadow: 0 12px 32px rgba(0,0,0,0.3);
     }
+
+    /* ── MODAL PARTENAIRE ── */
+    .partner-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(8,8,16,0.85);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    .partner-modal-overlay.open { display: flex; opacity: 1; }
+    .partner-modal {
+      position: relative;
+      background: var(--green-800);
+      border: 1px solid var(--green-600);
+      border-radius: 12px;
+      padding: 40px 36px 36px;
+      max-width: 460px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      text-align: center;
+      transform: translateY(16px) scale(0.98);
+      transition: transform 0.25s ease;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+    }
+    .partner-modal-overlay.open .partner-modal { transform: translateY(0) scale(1); }
+    .partner-modal-close {
+      position: absolute;
+      top: 14px; right: 16px;
+      width: 34px; height: 34px;
+      background: var(--green-700);
+      border: 1px solid var(--green-600);
+      border-radius: 50%;
+      color: var(--green-200);
+      font-size: 1.3rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .partner-modal-close:hover { background: var(--green-500); color: var(--cream); }
+    .partner-modal-icon { font-size: 3rem; display: block; margin-bottom: 14px; }
+    .partner-modal-type {
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--green-300);
+      border: 1px solid var(--green-600);
+      padding: 4px 12px;
+      border-radius: 2px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .partner-modal-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--cream);
+      margin-bottom: 16px;
+    }
+    .partner-modal-desc {
+      font-size: 0.9rem;
+      color: var(--green-100);
+      line-height: 1.7;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+    .partner-modal-details {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+      margin-bottom: 24px;
+    }
+    .pm-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.85rem;
+      color: var(--green-100);
+    }
+    .pm-detail-ico {
+      flex-shrink: 0;
+      width: 22px;
+      text-align: center;
+    }
+    .pm-detail a { color: var(--green-300); }
+    .pm-detail a:hover { color: var(--cream); }
+    .partner-modal-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .pm-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--green-500);
+      color: var(--cream);
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 10px 18px;
+      border-radius: 4px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .pm-link:hover { background: var(--green-400); transform: translateY(-1px); }
+    .pm-link.secondary { background: var(--green-700); border: 1px solid var(--green-600); }
+    .pm-link.secondary:hover { background: var(--green-600); }
 
     .partner-card-icon { font-size: 2.2rem; margin-bottom: 16px; display: block; }
 
@@ -942,16 +1094,6 @@
       .footer-grid { grid-template-columns: 1fr 1fr; }
     }
 
-    /* ── FADE-IN AU SCROLL ── */
-    .fade-up {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.55s ease, transform 0.55s ease;
-    }
-    .fade-up.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
 
     /* ── HAMBURGER MOBILE ── */
     .hamburger {
@@ -1018,17 +1160,101 @@
       .nav-links { display: none; }
       .hamburger { display: flex; }
       section { padding: 64px 24px; }
-      .hero-content { padding: 100px 24px 60px; }
+      .hero-content { padding: 100px 24px 60px; max-width: 100%; }
+      .hero-blob { width: 80vw; height: 55vh; opacity: 0.45; top: -5%; right: -15%; }
+      .hero-blob-2 { display: none; }
+      .hero-actions { flex-direction: column; align-items: stretch; gap: 12px; }
+      .star-btn { width: 100%; }
       .actualites-grid { grid-template-columns: 1fr; }
       .programmes-grid { grid-template-columns: repeat(2, 1fr); }
-      .evt-row { grid-template-columns: 80px 1fr; gap: 16px; }
+      .evt-row { grid-template-columns: 72px 1fr; gap: 12px; padding: 20px 16px; }
       .evt-genre, .evt-cta { display: none; }
       .partners-grid { grid-template-columns: repeat(2, 1fr); }
+      .contact-layout { grid-template-columns: 1fr; gap: 40px; }
+      .contact-form .form-row { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: 1fr; gap: 32px; }
       footer { padding: 48px 24px 24px; }
       .stats-grid { grid-template-columns: 1fr 1fr !important; }
+      .gcal-wrapper iframe { height: 420px; }
+      .countdown-banner { padding: 24px; }
+      .cd-unit { min-width: 60px; }
     }
     @media (max-width: 480px) {
+      .hero-title { font-size: 2.8rem; }
+      .hero-blob { opacity: 0.3; }
+      .cd-num { font-size: 2.2rem; }
+      .cd-sep { font-size: 1.4rem; }
+      .cd-unit { min-width: 50px; }
+      .countdown-units { gap: 4px; }
+      .evt-row { grid-template-columns: 60px 1fr; gap: 10px; }
+      .evt-day { font-size: 1.6rem; }
+      .partners-grid { grid-template-columns: 1fr 1fr; }
+      .programmes-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── COUNTDOWN ── */
+    .countdown-banner {
+      background: linear-gradient(135deg, var(--green-800) 0%, var(--green-700) 100%);
+      border-top: 1px solid var(--green-600);
+      border-bottom: 1px solid var(--green-600);
+      padding: 36px 48px;
+      text-align: center;
+    }
+    .countdown-inner { max-width: 860px; margin: 0 auto; }
+    .countdown-pretitle {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--green-300);
+      margin-bottom: 6px;
+    }
+    .countdown-event-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      font-weight: 900;
+      color: var(--cream);
+      margin-bottom: 24px;
+    }
+    .countdown-units {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .cd-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 80px;
+    }
+    .cd-num {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-weight: 900;
+      color: var(--green-300);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .cd-lbl {
+      font-size: 0.62rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--green-200);
+      margin-top: 8px;
+    }
+    .cd-sep {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--green-500);
+      padding-bottom: 20px;
+      line-height: 1;
+    }
+    .countdown-passed {
+      font-size: 1rem;
+      color: var(--green-300);
+      font-style: italic;
     }
   </style>
 
@@ -1042,7 +1268,7 @@
     "url": "https://lodience.netlify.app",
     "logo": "https://lodience.netlify.app/logo.png",
     "description": "Association de culture urbaine et hip-hop d'Audencia Business School à Nantes. Rap Party, L'Odience Live Session, Nouvelle École, Rap Jeux, La Purple Tape.",
-    "foundingDate": "2019",
+    "foundingDate": "2014",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "8 Route de la Jonelière",
@@ -1052,7 +1278,7 @@
     },
     "contactPoint": {
       "@type": "ContactPoint",
-      "email": "audencialodience@gmail.com",
+      "url": "https://lodience.netlify.app/#nous-ecrire",
       "contactType": "customer support"
     },
     "sameAs": [
@@ -1086,7 +1312,7 @@
     <li><a href="#evenements">Calendrier</a></li>
     <li><a href="#presse">Presse</a></li>
     <li><a href="#partenaires">Partenaires</a></li>
-    <li><a href="#nous-ecrire" class="nav-cta">Nous contacter</a></li>
+    <li><a href="#nous-ecrire" class="star-btn star-sm"><span>Nous contacter</span></a></li>
   </ul>
   <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
     <span></span><span></span><span></span>
@@ -1099,7 +1325,7 @@
   <a href="#evenements" onclick="closeMenu()">Calendrier</a>
   <a href="#presse" onclick="closeMenu()">Presse</a>
   <a href="#partenaires" onclick="closeMenu()">Partenaires</a>
-  <a href="#nous-ecrire" class="nav-cta-mobile" onclick="closeMenu()">Nous contacter</a>
+  <a href="#nous-ecrire" class="star-btn" onclick="closeMenu()"><span>Nous contacter</span></a>
 </div>
 
 <!-- ═══ HERO ═══ -->
@@ -1107,7 +1333,6 @@
   <div class="hero-blob"></div>
   <div class="hero-blob-2"></div>
   <div class="hero-content">
-    <span class="hero-tag">Association d'Audencia</span>
     <h1 class="hero-title">
       L'Odience
     </h1>
@@ -1115,10 +1340,10 @@
       L'Odience est l'association de culture urbaine d'Audencia : Rap Party, Live Session inter-écoles, concours Nouvelle École, label musical. Le point de ralliement des passionnés de rap à Nantes.
     </p>
     <div class="hero-actions">
-      <a href="#evenements" class="btn-primary">Voir le programme</a>
-      <a href="https://www.instagram.com/lodience.abs/" target="_blank" class="btn-outline" style="display:inline-flex;align-items:center;gap:8px;">
+      <a href="#evenements" class="star-btn"><span>Voir le programme</span></a>
+      <a href="https://www.instagram.com/lodience.abs/" target="_blank" class="star-btn star-outline">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        @lodience.abs
+        <span>@lodience.abs</span>
       </a>
     </div>
   </div>
@@ -1130,7 +1355,7 @@
   <h2 class="section-title">Ce qu'on représente</h2>
   <div class="stats-grid">
     <div class="stat-bloc">
-      <div class="stat-number" data-target="500">0</div>
+      <div class="stat-number" data-target="500" data-suffix="+">0</div>
       <div class="stat-label">Personnes par Rap Party</div>
       <p class="stat-desc">La soirée rap la plus attendue du campus</p>
     </div>
@@ -1150,12 +1375,29 @@
       <p class="stat-desc">Le format inter-écoles qui rayonne sur les réseaux</p>
     </div>
     <div class="stat-bloc">
-      <div class="stat-number" data-target="500">0</div>
+      <div class="stat-number" data-target="500" data-suffix="+">0</div>
       <div class="stat-label">Places remplies à la Nouvelle École</div>
-      <p class="stat-desc">Un amphi comble avec des intervenants nantais</p>
+      <p class="stat-desc">Un amphi plein à craquer avec des intervenants nantais</p>
     </div>
   </div>
 </section>
+
+<!-- ═══ COUNTDOWN ═══ -->
+<div class="countdown-banner">
+  <div class="countdown-inner">
+    <p class="countdown-pretitle">Prochain événement</p>
+    <p class="countdown-event-name" id="cd-event-name">—</p>
+    <div class="countdown-units" id="cd-units">
+      <div class="cd-unit"><span class="cd-num" id="cd-days">--</span><span class="cd-lbl">jours</span></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit"><span class="cd-num" id="cd-hours">--</span><span class="cd-lbl">heures</span></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit"><span class="cd-num" id="cd-mins">--</span><span class="cd-lbl">minutes</span></div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit"><span class="cd-num" id="cd-secs">--</span><span class="cd-lbl">secondes</span></div>
+    </div>
+  </div>
+</div>
 
 <!-- ═══ À LA UNE ═══ -->
 <section id="actualites">
@@ -1169,7 +1411,7 @@
         <p class="actu-cat">Soirée phare</p>
         <h3 class="actu-title">Rap Party, la soirée rap incontournable d'Audencia</h3>
         <p class="actu-excerpt">Les Rap Party, c'est la soirée à thème signature de L'Odience : chaque édition plonge le public dans un univers rap unique, du "Classico" qui oppose les sons d'Île-de-France et de Marseille, au "Old School vs New School" qui fait dialoguer les classiques des années 90 avec les hits d'aujourd'hui. Une nuit, un thème, une ambiance, à chaque fois une expérience différente.</p>
-        <span class="actu-date">2 éditions par semestre, prochaine date à venir</span>
+        <span class="actu-date">1 édition par semestre, prochaine date sur le calendrier</span>
       </div>
     </div>
     <!-- Card 2 -->
@@ -1204,7 +1446,7 @@
     </div>
     <!-- Card 5 -->
     <div class="actu-card" onclick="location.href='evenement.html#premiere-odience'" style="cursor:pointer">
-      <div class="actu-img-placeholder">🎶</div>
+      <div class="actu-img-placeholder" style="padding:0;overflow:hidden"><img src="photos/premiere-odience-cover.webp" alt="Première Odience" style="width:100%;height:100%;object-fit:cover;display:block" /></div>
       <div class="actu-body">
         <p class="actu-cat">Nouveau concept, Mandat 2026</p>
         <h3 class="actu-title">Première Odience, la réaction rap du vendredi</h3>
@@ -1277,14 +1519,33 @@
   <h2 class="section-title">Nos partenaires</h2>
   <div class="partners-grid">
 
-    <div class="partner-card">
+    <div class="partner-card" onclick="openPartner('krumpp')">
       <span class="partner-card-icon">🎤</span>
       <div class="partner-card-name">Krumpp</div>
-      <span class="partner-card-type">Salle de concert</span>
+      <span class="partner-card-type">Concerts &amp; festivals</span>
+    </div>
+
+    <div class="partner-card" onclick="openPartner('moar')">
+      <span class="partner-card-icon">💿</span>
+      <div class="partner-card-name">Moar Music</div>
+      <span class="partner-card-type">Disquaire &amp; label</span>
     </div>
 
   </div>
 </section>
+
+<!-- ═══ MODAL PARTENAIRE ═══ -->
+<div class="partner-modal-overlay" id="partner-modal" onclick="if(event.target===this)closePartner()">
+  <div class="partner-modal" role="dialog" aria-modal="true">
+    <button class="partner-modal-close" onclick="closePartner()" aria-label="Fermer">×</button>
+    <span class="partner-modal-icon" id="pm-icon">🎤</span>
+    <span class="partner-modal-type" id="pm-type">Type</span>
+    <h3 class="partner-modal-name" id="pm-name">Nom</h3>
+    <p class="partner-modal-desc" id="pm-desc">Description</p>
+    <div class="partner-modal-details" id="pm-details"></div>
+    <div class="partner-modal-links" id="pm-links"></div>
+  </div>
+</div>
 
 
 <!-- ═══ CONTACT ═══ -->
@@ -1296,10 +1557,10 @@
       <p>Une question, une idée, une collaboration ? On est disponibles. Envoie-nous un message et on te répond rapidement.</p>
       <div class="contact-details">
         <div class="contact-detail">
-          <div class="contact-icon">✉️</div>
+          <div class="contact-icon">📝</div>
           <div class="contact-detail-text">
-            <strong>Email</strong>
-            <span>audencialodience@gmail.com</span>
+            <strong>Nous écrire</strong>
+            <span>Remplis le formulaire ci-contre, on te répond vite</span>
           </div>
         </div>
         <div class="contact-detail">
@@ -1349,7 +1610,7 @@
       </div>
       <input type="hidden" name="_subject" value="Nouveau message — Site L'Odience" />
       <input type="hidden" name="_language" value="fr" />
-      <button type="submit" class="btn-send">Envoyer le message</button>
+      <button type="submit" class="star-btn"><span>Envoyer le message</span></button>
       <div class="form-success" id="form-success">
         ✓ Message envoyé ! Nous vous répondrons dans les meilleurs délais.
       </div>
@@ -1362,7 +1623,7 @@
   <div class="footer-grid">
     <div class="footer-brand">
       <span class="nav-logo"><img src="logo.webp" alt="Logo L'Odience" /><span class="nav-logo-text">L'<em>Odience</em></span></span>
-      <p>Association loi 1901 dédiée à la création artistique et au rayonnement culturel de Nantes et sa métropole depuis 2011.</p>
+      <p>Association loi 1901 dédiée à la création artistique et au rayonnement culturel de Nantes et sa métropole depuis 2014.</p>
     </div>
     <div class="footer-col">
       <h4>Navigation</h4>
@@ -1376,6 +1637,7 @@
       <h4>L'association</h4>
       <ul>
         <li><a href="about.html">Qui sommes-nous ?</a></li>
+        <li><a href="mandat2026.html">Notre équipe</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -1383,8 +1645,8 @@
       <ul>
         <li><a href="https://www.google.com/maps/search/?api=1&query=8+Route+de+la+Jonelière+44300+Nantes" target="_blank" rel="noopener">Accès & transports</a></li>
 
-        <li><a href="mentions.html">Mentions légales</a></li>
-        <li><a href="confidentialite.html">Politique de confidentialité</a></li>
+        <li><a href="mentions.html" class="clicks-required">Mentions légales</a></li>
+        <li><a href="confidentialite.html" class="clicks-required">Politique de confidentialité</a></li>
       </ul>
     </div>
   </div>
@@ -1399,8 +1661,9 @@
   async function submitContact(e) {
     e.preventDefault();
     const form = e.target;
-    const btn = form.querySelector('.btn-send');
-    btn.textContent = 'Envoi en cours…';
+    const btn = form.querySelector('button[type="submit"]');
+    const btnLabel = btn.querySelector('span') || btn;
+    btnLabel.textContent = 'Envoi en cours…';
     btn.disabled = true;
 
     try {
@@ -1417,18 +1680,102 @@
           document.getElementById('form-success').style.display = 'none';
         }, 6000);
       } else {
-        alert('Une erreur est survenue. Écrivez-nous directement à audencialodience@gmail.com');
+        alert('Une erreur est survenue. Merci de réessayer dans un instant.');
       }
     } catch {
-      alert('Connexion impossible. Écrivez-nous à audencialodience@gmail.com');
+      alert('Connexion impossible. Vérifie ta connexion et réessaie.');
     }
 
-    btn.textContent = 'Envoyer le message';
+    btnLabel.textContent = 'Envoyer le message';
     btn.disabled = false;
   }
 </script>
 
 <script>
+  /* ── Countdown ── */
+  // 👉 Mets à jour le nom et la date du prochain événement ici
+  const NEXT_EVENT = {
+    name: 'Rap Party',
+    date: new Date('2026-10-23T21:00:00') // Format : AAAA-MM-JJTHH:MM:SS
+  };
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = NEXT_EVENT.date - now;
+    document.getElementById('cd-event-name').textContent = NEXT_EVENT.name;
+    if (diff <= 0) {
+      document.getElementById('cd-units').innerHTML = '<p class="countdown-passed">C\'est ce soir ! 🎤</p>';
+      return;
+    }
+    const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins  = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const secs  = Math.floor((diff % (1000 * 60)) / 1000);
+    document.getElementById('cd-days').textContent  = days;
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('cd-mins').textContent  = String(mins).padStart(2, '0');
+    document.getElementById('cd-secs').textContent  = String(secs).padStart(2, '0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  /* ── Modal partenaires ── */
+  const PARTNERS = {
+    krumpp: {
+      icon: '🎤',
+      type: 'Concerts & festivals',
+      name: 'Krumpp',
+      desc: "Structure indépendante du Grand Ouest qui programme, produit et promeut concerts, soirées et festivals entre Nantes, Rennes et Angers. Krumpp est la maison-mère d'un large univers artistique — du rap (Mōbb) à l'électro (Minuits), en passant par la pop (HALO) et les festivals (Boomin Fest, Nouvel Orage) — présente sur plus de 20 salles et clubs de la région.",
+      details: [
+        { ico: '📍', html: 'Nantes · Rennes · Angers' },
+        { ico: '🎶', html: 'Rap, pop, électro, festivals' }
+      ],
+      links: [
+        { label: 'Site web', url: 'https://krumpp.fr', primary: true },
+        { label: 'Instagram', url: 'https://www.instagram.com/krumpp_/', primary: false },
+        { label: 'Facebook', url: 'https://www.facebook.com/krumpp44', primary: false }
+      ]
+    },
+    moar: {
+      icon: '💿',
+      type: 'Disquaire & label',
+      name: 'Moar Music',
+      desc: "Disquaire au cœur de Nantes ouvert fin 2024 par Moar (Jérôme Potin), DJ depuis 30 ans et producteur depuis 20 ans. On y trouve une large sélection de vinyles, mais aussi CD, cassettes, goodies et matériel hi-fi, tous styles confondus : jazz, rock, électro, hip-hop, blues, reggae, soul, house. La boutique propose aussi de la location de son et lumière pour les événements.",
+      details: [
+        { ico: '📍', html: '9 rue de la Paix, 44000 Nantes' },
+        { ico: '🕒', html: 'Mardi – Samedi · 11h à 19h' },
+        { ico: '✉️', html: '<a href="mailto:moarmusicshop@gmail.com">moarmusicshop@gmail.com</a>' },
+        { ico: '📞', html: '<a href="tel:+33953420902">09 53 42 09 02</a>' }
+      ],
+      links: [
+        { label: 'Instagram', url: 'https://www.instagram.com/moarmusicshop/', primary: true },
+        { label: 'Facebook', url: 'https://www.facebook.com/p/Moar-Music-shop-61560389237280/', primary: false }
+      ]
+    }
+  };
+
+  function openPartner(key) {
+    const p = PARTNERS[key];
+    if (!p) return;
+    document.getElementById('pm-icon').textContent = p.icon;
+    document.getElementById('pm-type').textContent = p.type;
+    document.getElementById('pm-name').textContent = p.name;
+    document.getElementById('pm-desc').textContent = p.desc;
+    document.getElementById('pm-details').innerHTML = p.details.map(d =>
+      `<div class="pm-detail"><span class="pm-detail-ico">${d.ico}</span><span>${d.html}</span></div>`
+    ).join('');
+    document.getElementById('pm-links').innerHTML = p.links.map(l =>
+      `<a class="pm-link ${l.primary ? '' : 'secondary'}" href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`
+    ).join('');
+    document.getElementById('partner-modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePartner() {
+    document.getElementById('partner-modal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePartner(); });
+
   /* ── Bouton retour en haut ── */
   const btt = document.getElementById('back-to-top');
   window.addEventListener('scroll', () => {
@@ -1438,7 +1785,7 @@
   /* ── Transition de page — fondu sortant uniquement ── */
   document.querySelectorAll('a[href]').forEach(link => {
     const href = link.getAttribute('href');
-    if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || link.target === '_blank') return;
+    if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || link.target === '_blank' || link.classList.contains('clicks-required')) return;
     link.addEventListener('click', e => {
       e.preventDefault();
       const out = document.createElement('div');
@@ -1446,6 +1793,18 @@
       document.body.appendChild(out);
       requestAnimationFrame(() => { out.style.opacity = '1'; });
       setTimeout(() => { window.location.href = href; }, 370);
+    });
+  });
+
+  /* ── Liens cachés : 6 clics requis pour accéder ── */
+  document.querySelectorAll('a.clicks-required').forEach(link => {
+    const href = link.getAttribute('href');
+    let count = 0;
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      count++;
+      if (count >= 6) { window.location.href = href; }
     });
   });
 
@@ -1463,24 +1822,6 @@
     document.body.style.overflow = '';
   }
 
-  /* ── Fade-in au scroll ── */
-  /* ── Fade-in au scroll (rejoue à chaque passage) ── */
-  const fadeEls = document.querySelectorAll('.actu-card, .presse-card, .stat-bloc, .valeur-card, .partner-logo');
-  fadeEls.forEach((el, i) => {
-    el.classList.add('fade-up');
-    el.style.transitionDelay = (i % 4) * 80 + 'ms';
-  });
-  const fadeObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      } else {
-        // Remet l'état initial quand l'élément quitte l'écran
-        entry.target.classList.remove('visible');
-      }
-    });
-  }, { threshold: 0.12 });
-  fadeEls.forEach(el => fadeObserver.observe(el));
 
   /* ── Compteur animé au scroll (rejoue à chaque passage) ── */
   const statNumbers = document.querySelectorAll('.stat-number[data-target]');
@@ -1490,20 +1831,21 @@
     if (el._counterTimer) clearInterval(el._counterTimer);
     const target = parseInt(el.dataset.target, 10);
     const suffix = el.dataset.suffix || '';
+    const prefix = el.dataset.prefix || '';
     const duration = 1600;
     const step = 16;
     const steps = duration / step;
     const increment = target / steps;
     let current = 0;
-    el.textContent = '0' + suffix;
+    el.textContent = prefix + '0' + suffix;
 
     el._counterTimer = setInterval(() => {
       current += increment;
       if (current >= target) {
-        el.textContent = target.toLocaleString('fr-FR') + suffix;
+        el.textContent = prefix + target.toLocaleString('fr-FR') + suffix;
         clearInterval(el._counterTimer);
       } else {
-        el.textContent = Math.floor(current).toLocaleString('fr-FR') + suffix;
+        el.textContent = prefix + Math.floor(current).toLocaleString('fr-FR') + suffix;
       }
     }, step);
   }
@@ -1515,7 +1857,7 @@
       } else {
         // Remet à 0 quand l'élément quitte l'écran
         if (entry.target._counterTimer) clearInterval(entry.target._counterTimer);
-        entry.target.textContent = '0' + (entry.target.dataset.suffix || '');
+        entry.target.textContent = (entry.target.dataset.prefix || '') + '0' + (entry.target.dataset.suffix || '');
       }
     });
   }, { threshold: 0.3 });

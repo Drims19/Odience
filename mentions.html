@@ -204,6 +204,35 @@
     .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
     .back-to-top:hover { background: #9333ea; }
 
+    /* ── STAR BUTTONS (lumière animée sur la bordure) ── */
+    .star-btn {
+      position: relative; display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 14px 32px; font-size: 0.85rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.1em; border: none; border-radius: 9999px;
+      cursor: pointer; overflow: hidden; isolation: isolate; color: var(--cream);
+      background: transparent; transition: transform 0.15s ease;
+      --light-color: #c084fc; --btn-bg: #10101e; --border-w: 2px;
+    }
+    .star-btn::before {
+      content: ""; position: absolute; z-index: -2; left: 50%; top: 50%;
+      width: 260%; aspect-ratio: 1; transform: translate(-50%, -50%);
+      background: conic-gradient(from 0deg, transparent 0deg, transparent 250deg,
+        var(--light-color) 318deg, #ffffff 340deg, var(--light-color) 352deg, transparent 360deg);
+      animation: star-spin 3s linear infinite;
+    }
+    .star-btn::after {
+      content: ""; position: absolute; z-index: -1; inset: var(--border-w);
+      border-radius: inherit; background: var(--btn-bg);
+    }
+    .star-btn:hover { transform: translateY(-2px); }
+    .star-btn > span {
+      position: relative; z-index: 1;
+      background: linear-gradient(to top, #a78bca, var(--cream));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .star-btn.star-sm { padding: 9px 22px; font-size: 0.75rem; }
+    @keyframes star-spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
   </style>
 
   <!-- Open Graph / WhatsApp / Instagram -->
@@ -229,7 +258,7 @@
     <img src="logo.webp" alt="Logo L'Odience" />
     <span class="nav-logo-text">L'<em>Odience</em></span>
   </a>
-  <a href="index.html" class="nav-back">Retour à l'accueil</a>
+  <a href="index.html" class="star-btn star-sm"><span>← Retour à l'accueil</span></a>
 </nav>
 
 <!-- ── CONTENU ── -->
@@ -253,16 +282,8 @@
       <span class="ml-value">8 Route de la Jonelière, 44300 Nantes</span>
     </div>
     <div class="ml-row">
-      <span class="ml-label">SIRET</span>
-      <span class="ml-value">842 301 456 00027</span>
-    </div>
-    <div class="ml-row">
-      <span class="ml-label">Code APE</span>
-      <span class="ml-value">9001Z</span>
-    </div>
-    <div class="ml-row">
-      <span class="ml-label">Email de contact</span>
-      <span class="ml-value">audencialodience@gmail.com</span>
+      <span class="ml-label">Contact</span>
+      <span class="ml-value"><a href="index.html#nous-ecrire" style="color:var(--green-300)">Formulaire de contact</a></span>
     </div>
   </div>
 
@@ -274,8 +295,8 @@
       <span class="ml-value">Deion Blanche, Président de L'Odience</span>
     </div>
     <div class="ml-row">
-      <span class="ml-label">Email</span>
-      <span class="ml-value">audencialodience@gmail.com</span>
+      <span class="ml-label">Contact</span>
+      <span class="ml-value"><a href="index.html#nous-ecrire" style="color:var(--green-300)">Formulaire de contact</a></span>
     </div>
   </div>
 
@@ -310,7 +331,7 @@
     <h2>Données personnelles</h2>
     <div class="ml-row">
       <span class="ml-label"></span>
-      <span class="ml-value">Ce site collecte uniquement les données transmises via le formulaire de contact (nom, prénom, email, message). Ces données sont utilisées exclusivement pour répondre aux demandes et ne sont pas transmises à des tiers. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression en écrivant à audencialodience@gmail.com.</span>
+      <span class="ml-value">Ce site collecte uniquement les données transmises via le formulaire de contact (nom, prénom, email, message). Ces données sont utilisées exclusivement pour répondre aux demandes et ne sont pas transmises à des tiers. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression via le <a href="index.html#nous-ecrire" style="color:var(--green-300)">formulaire de contact</a> du site.</span>
     </div>
   </div>
 
@@ -319,7 +340,6 @@
 <!-- ── FOOTER ── -->
 <footer>
   <span>© 2026 L'Odience — Association Culturelle de Nantes</span>
-  <span>SIRET 842 301 456 00027 — APE 9001Z</span>
 </footer>
 
 

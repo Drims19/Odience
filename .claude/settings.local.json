@@ -27,7 +27,30 @@
       "Bash(sips -s format webp logo.png --out logo.webp)",
       "Bash(python3 -c \"from PIL import Image; print\\('PIL OK'\\)\")",
       "Bash(python3 -c \"import PIL; print\\('PIL OK'\\)\")",
-      "WebFetch(domain:www.mondedesgrandesecoles.fr)"
+      "WebFetch(domain:www.mondedesgrandesecoles.fr)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "WebFetch(domain:lodience.netlify.app)",
+      "Bash(git push *)",
+      "WebFetch(domain:21st.dev)",
+      "Bash(find \"/Users/user/Desktop\" -type d -iname \"*référent*\" -o -type d -iname \"*referent*\" 2>/dev/null; find \"/Users/user\" -maxdepth 4 -type d -iname \"*référent*\" -o -maxdepth 4 -type d -iname \"*referent*\" 2>/dev/null)",
+      "Bash(mkdir -p \"/Users/user/Desktop/Référent associatif /.claude\")",
+      "Bash(npx --yes serve -p 3002 .)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3002/)",
+      "Bash(lsof -ti:3002)",
+      "Bash(xargs kill -9)",
+      "Bash(npx serve *)",
+      "Bash(cp \"/Users/user/Desktop/Référent associatif /index.html\" \"/Users/user/Desktop/Référent associatif /Référent associatif /index.html\" && echo \"✅ Copié\")",
+      "WebFetch(domain:krumpp.fr)",
+      "WebFetch(domain:www.facebook.com)",
+      "Bash(grep -v \"^\\\\.$\\\\|^\\\\.git$\\\\|^\\\\.claude$\")",
+      "Bash(ls -d photos/*/)",
+      "Bash(ls -d photos/rap-jeux)",
+      "Bash(ls -d photos/premiere-odience)",
+      "WebFetch(domain:www.youtube.com)",
+      "mcp__visualize__read_me",
+      "mcp__visualize__show_widget",
+      "Bash(python3 -c \"import PIL; print\\('PIL OK', PIL.__version__\\)\")",
+      "Bash(git remote *)"
     ]
   }
 }

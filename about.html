@@ -349,6 +349,35 @@
     .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
     .back-to-top:hover { background: #9333ea; }
 
+    /* ── STAR BUTTONS (lumière animée sur la bordure) ── */
+    .star-btn {
+      position: relative; display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 14px 32px; font-size: 0.85rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.1em; border: none; border-radius: 9999px;
+      cursor: pointer; overflow: hidden; isolation: isolate; color: var(--cream);
+      background: transparent; transition: transform 0.15s ease;
+      --light-color: #c084fc; --btn-bg: #10101e; --border-w: 2px;
+    }
+    .star-btn::before {
+      content: ""; position: absolute; z-index: -2; left: 50%; top: 50%;
+      width: 260%; aspect-ratio: 1; transform: translate(-50%, -50%);
+      background: conic-gradient(from 0deg, transparent 0deg, transparent 250deg,
+        var(--light-color) 318deg, #ffffff 340deg, var(--light-color) 352deg, transparent 360deg);
+      animation: star-spin 3s linear infinite;
+    }
+    .star-btn::after {
+      content: ""; position: absolute; z-index: -1; inset: var(--border-w);
+      border-radius: inherit; background: var(--btn-bg);
+    }
+    .star-btn:hover { transform: translateY(-2px); }
+    .star-btn > span {
+      position: relative; z-index: 1;
+      background: linear-gradient(to top, #a78bca, var(--cream));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .star-btn.star-sm { padding: 9px 22px; font-size: 0.75rem; }
+    @keyframes star-spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
   </style>
 
   <!-- Open Graph / WhatsApp / Instagram -->
@@ -374,7 +403,7 @@
     <img src="logo.webp" alt="Logo L'Odience" />
     <span class="nav-logo-text">L'<em>Odience</em></span>
   </a>
-  <a href="index.html" class="nav-back">Retour à l'accueil</a>
+  <a href="index.html" class="star-btn star-sm"><span>← Retour à l'accueil</span></a>
 </nav>
 
 <!-- ── HERO ── -->
@@ -389,17 +418,23 @@
 <!-- ── HISTOIRE ── -->
 <div class="about-section">
   <p class="section-label">Notre histoire</p>
-  <h2 class="section-title">Nés d'une passion commune</h2>
+  <h2 class="section-title">De FM'AIR à L'Odience</h2>
   <div class="histoire-layout">
     <div class="histoire-text">
       <p>
-        L'Odience est née d'une conviction simple : le rap mérite sa place dans les grandes écoles. Fondée par des étudiants passionnés au sein d'Audencia Business School à Nantes, l'association s'est construite autour d'un objectif clair : créer des espaces où la culture urbaine peut s'exprimer librement, sur scène comme en studio.
+        L'Odience n'a pas toujours porté ce nom. À sa création en 2014, l'association était FM'AIR, la radio étudiante d'Audencia Business School à Nantes : une équipe qui faisait vivre l'antenne du campus et couvrait, micro en main, la vie de l'école et ses événements.
       </p>
       <p>
-        Au fil des années, L'Odience a développé une identité forte à travers ses événements phares : les Rap Party à thème, le format Live Session inspiré des sessions Grünt, le Rap Jeux, le concours Nouvelle École, et le projet musical annuel La Purple Tape. Chaque concept est pensé pour mettre en valeur les talents du campus et créer des moments forts pour le public.
+        En 2020, tout bascule. Le mandat prend un tournant et révèle l'association sous un nouveau jour : la musique urbaine devient le cœur du projet. C'est à partir de là que se construit, pas à pas, l'identité de L'Odience telle qu'on la connaît aujourd'hui.
       </p>
       <p>
-        Aujourd'hui, L'Odience rassemble une quarantaine de membres actifs, organisé en pôles (événementiel, communication, médias, label, démarchage), et s'impose comme l'une des associations les plus dynamiques d'Audencia.
+        Le mandat 2024 donne une véritable impulsion avec les Rap Party, ses soirées rap à thème vite devenues incontournables sur le campus. Le mandat 2025 enchaîne en développant le concours Nouvelle École, le Rap Jeux et le projet musical collectif La Purple Tape, autant de formats pensés pour révéler les talents de l'école.
+      </p>
+      <p>
+        Le mandat 2026 franchit un cap supplémentaire : le pôle label monte en puissance avec la création d'un véritable studio, tandis que les événements déjà installés gagnent en ampleur, plus de portée, de nouvelles épreuves et une expérience toujours plus aboutie pour le public.
+      </p>
+      <p>
+        Aujourd'hui, L'Odience rassemble une quarantaine de membres actifs, organisée en pôles (événementiel, communication, médias, label, démarchage), et s'impose comme l'une des associations les plus dynamiques d'Audencia.
       </p>
     </div>
     <div class="histoire-photo">
@@ -423,8 +458,8 @@
       <div class="chiffre-label">Événements par an</div>
     </div>
     <div class="chiffre-bloc">
-      <div class="chiffre-number">500+</div>
-      <div class="chiffre-label">Spectateurs au Nouvelle École</div>
+      <div class="chiffre-number">1200+</div>
+      <div class="chiffre-label">Élèves qui suivent L'Odience au quotidien</div>
     </div>
     <div class="chiffre-bloc">
       <div class="chiffre-number">3h</div>
@@ -458,15 +493,14 @@
 
 <!-- ── CTA ── -->
 <div class="about-cta">
-  <h2>Envie de nous rejoindre ?</h2>
-  <p>Tu es étudiant à Audencia et tu veux intégrer L'Odience ? Écris-nous.</p>
+  <h2>Envie de collaborer avec nous ?</h2>
+  <p>Écris-nous.</p>
   <a href="index.html#nous-ecrire" class="btn-primary">Nous contacter</a>
 </div>
 
 <!-- ── FOOTER ── -->
 <footer>
   <span>© 2026 L'Odience — Association Culturelle de Nantes</span>
-  <span>SIRET 842 301 456 00027 — APE 9001Z</span>
 </footer>
 
 

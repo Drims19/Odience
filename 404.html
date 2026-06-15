@@ -137,6 +137,35 @@
       nav { padding: 0 24px; }
       .code-404 { font-size: 8rem; }
     }
+
+    /* ── STAR BUTTONS (lumière animée sur la bordure) ── */
+    .star-btn {
+      position: relative; display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; padding: 14px 32px; font-size: 0.85rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.1em; border: none; border-radius: 9999px;
+      cursor: pointer; overflow: hidden; isolation: isolate; color: var(--cream);
+      background: transparent; transition: transform 0.15s ease;
+      --light-color: #c084fc; --btn-bg: #10101e; --border-w: 2px;
+    }
+    .star-btn::before {
+      content: ""; position: absolute; z-index: -2; left: 50%; top: 50%;
+      width: 260%; aspect-ratio: 1; transform: translate(-50%, -50%);
+      background: conic-gradient(from 0deg, transparent 0deg, transparent 250deg,
+        var(--light-color) 318deg, #ffffff 340deg, var(--light-color) 352deg, transparent 360deg);
+      animation: star-spin 3s linear infinite;
+    }
+    .star-btn::after {
+      content: ""; position: absolute; z-index: -1; inset: var(--border-w);
+      border-radius: inherit; background: var(--btn-bg);
+    }
+    .star-btn:hover { transform: translateY(-2px); }
+    .star-btn > span {
+      position: relative; z-index: 1;
+      background: linear-gradient(to top, #a78bca, var(--cream));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .star-btn.star-sm { padding: 9px 22px; font-size: 0.75rem; }
+    @keyframes star-spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -154,7 +183,7 @@
   <div class="code-404">404</div>
   <h1 class="titre">Tout doux le loup,<br>on finit bientôt ce côté du site.</h1>
   <p class="sous-titre">La page que tu cherches n'existe pas encore — ou elle a disparu dans le cyberspace.<br>Reviens sur tes pas.</p>
-  <a href="index.html" class="btn-home">← Retour à l'accueil</a>
+  <a href="index.html" class="star-btn star-sm"><span>← Retour à l'accueil</span></a>
 </div>
 
 </body>
