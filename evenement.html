@@ -384,6 +384,7 @@
     <p class="section-label">À propos</p>
     <h2 class="section-title">Description de l'événement</h2>
     <p class="desc-text" id="desc-text"></p>
+    <a id="site-cta" href="#" target="_blank" rel="noopener" class="star-btn" style="display:none;margin-top:20px"><span>Voir le site</span></a>
   </div>
 
   <!-- Section Streaming (uniquement si ev.streaming) -->
@@ -487,6 +488,8 @@
       cover: null,
       multiEdition: true,
       youtubeExtra: true,
+      siteUrl: 'https://ols.insocampus.fr/',
+      siteLabel: 'Voir le site de l\'OLS 1',
       edition1: 'Deuxième Édition',
       edition2: 'Première Édition',
       defaultYoutubeVideos: ['XLvwiA3GU88'],
@@ -550,6 +553,14 @@
 
   // Description
   document.getElementById('desc-text').textContent = ev.desc;
+
+  // Bouton vers un site dédié (si défini)
+  if (ev.siteUrl) {
+    const cta = document.getElementById('site-cta');
+    cta.href = ev.siteUrl;
+    if (ev.siteLabel) cta.querySelector('span').textContent = ev.siteLabel;
+    cta.style.display = 'inline-flex';
+  }
 
   // ── Streaming ──
   const platformIcons = {

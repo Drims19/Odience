@@ -50,7 +50,8 @@
       "mcp__visualize__read_me",
       "mcp__visualize__show_widget",
       "Bash(python3 -c \"import PIL; print\\('PIL OK', PIL.__version__\\)\")",
-      "Bash(git remote *)"
+      "Bash(git remote *)",
+      "Bash(git fetch *)"
     ]
   }
 }
